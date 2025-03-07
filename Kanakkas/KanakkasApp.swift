@@ -9,24 +9,17 @@ import SwiftUI
 import SwiftData
 
 @main
-struct KanakkasApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
-
+struct DrinkingGame: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeScreenView()
         }
-        .modelContainer(sharedModelContainer)
+    }
+}
+
+// Preview
+struct app_Previews: PreviewProvider {
+    static var previews: some View {
+        HomeScreenView()
     }
 }
