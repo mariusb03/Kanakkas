@@ -1,5 +1,5 @@
 //
-//  VorsetStarterGameView.swift
+//  DamenesAftenGameView.swift
 //  Kanakkas
 //
 //  Created by Marius Bringsvor Rusten on 07/03/2025.
@@ -7,15 +7,15 @@
 
 import SwiftUI
 
-struct VorsetStarterGameView: View {
+struct Dag2GameView: View {
     @State private var currentIndex = 0
-    let cards = vorsetStarterCards
+    let cards = dag2Cards
     let players: [String] // List of player names
     
     var body: some View {
         ZStack {
             // Set background color dynamically based on category
-            (categoryColors[cards[currentIndex].category] ?? Color.black)
+            (damenesAftenCategoryColors[cards[currentIndex].category] ?? Color.black)
                 .edgesIgnoringSafeArea(.all)
 
             // Detect screen taps (Left → Back, Right → Next)
@@ -37,7 +37,7 @@ struct VorsetStarterGameView: View {
                     
                     Spacer()
                     
-                    VorsetStarterTitleCard()
+                    Dag2TitleCard()
                     
                     Spacer()
                     
@@ -74,7 +74,7 @@ struct VorsetStarterGameView: View {
     }
     
     // Function to generate card description, replacing {player} with a random player
-    private func generateCardDescription(for card: VorsetStarterCard) -> String {
+    private func generateCardDescription(for card: Dag2Card) -> String {
         // Check if the card needs a player and replace {player} with a random name
         if card.needsPlayer, let randomPlayer = players.randomElement() {
             return card.description.replacingOccurrences(of: "{player}", with: randomPlayer)
@@ -97,10 +97,10 @@ struct VorsetStarterGameView: View {
 }
 
 // MARK: - Preview
-struct VorsetStarterGameView_Previews: PreviewProvider {
+struct Dag2GameView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            VorsetStarterGameView(players: ["Emma", "Oliver", "Noah", "Sofie"])
+            Dag2GameView(players: ["Emma", "Oliver", "Noah", "Sofie"])
         }
     }
 }

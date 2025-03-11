@@ -1,5 +1,5 @@
 //
-//  VorsetStarterCard.swift
+//  DamenesAftenCard.swift
 //  Kanakkas
 //
 //  Created by Marius Bringsvor Rusten on 07/03/2025.
@@ -9,7 +9,7 @@
 import SwiftUI
 
 // MARK: - Vorset Starter Card Model
-struct VorsetStarterCard: Identifiable {
+struct DamenesAftenCard: Identifiable {
     let id = UUID()
     let title: String
     let description: String
@@ -18,7 +18,7 @@ struct VorsetStarterCard: Identifiable {
 }
 
 // MARK: - Category Colors
-let categoryColors: [String: Color] = [
+let damenesAftenCategoryColors: [String: Color] = [
     "kategori": Color.blue,                // Dark Blue
     "pekelek": Color.green,                 // Green
     "regel": Color.purple,                   // Purple
@@ -34,63 +34,63 @@ let categoryColors: [String: Color] = [
 ]
 
 // MARK: - Vorset Starter Card Data
-let vorsetStarterCards: [VorsetStarterCard] = [
+let damenesAftenCards: [DamenesAftenCard] = [
     
     // MARK: Kategori (dark blue)
-    VorsetStarterCard(title: "Kategorien er ...", description: "Idrettsstjerner, den mest atletiske starter", category: "kategori", needsPlayer: false),
+    DamenesAftenCard(title: "Kategorien er ...", description: "Idrettsstjerner, den mest atletiske starter", category: "kategori", needsPlayer: false),
     
     // MARK: Pekelek (green)
-    VorsetStarterCard(title: "Pekelek", description: "Hvem er best til å lyve?", category: "pekelek", needsPlayer: false),
-    VorsetStarterCard(title: "Pekelek", description: "Hvem ber andre drepe edderkopper for de?", category: "pekelek", needsPlayer: false),
-    VorsetStarterCard(title: "Pekelek", description: "Hvem ville du hatt som partner i en start-up?", category: "pekelek", needsPlayer: false),
+    DamenesAftenCard(title: "Pekelek", description: "Hvem er best til å lyve?", category: "pekelek", needsPlayer: false),
+    DamenesAftenCard(title: "Pekelek", description: "Hvem ber andre drepe edderkopper for de?", category: "pekelek", needsPlayer: false),
+    DamenesAftenCard(title: "Pekelek", description: "Hvem ville du hatt som partner i en start-up?", category: "pekelek", needsPlayer: false),
     
     // MARK: Regel (purple)
-    VorsetStarterCard(title: "Regel", description: "{player}", category: "regel", needsPlayer: true),
+    DamenesAftenCard(title: "Regel", description: "{player}", category: "regel", needsPlayer: true),
     
     
     // MARK: Regel Opphevet (purple)
-    VorsetStarterCard(title: "Regel opphevet", description: "{player}", category: "regel opphevet", needsPlayer: true),
+    DamenesAftenCard(title: "Regel opphevet", description: "{player}", category: "regel opphevet", needsPlayer: true),
     
     
     // MARK: Tommel opp/ned (dark green)
-    VorsetStarterCard(title: "Tommel opp/ned", description: "{player}", category: "tommel opp/ned", needsPlayer: true),
+    DamenesAftenCard(title: "Tommel opp/ned", description: "{player}", category: "tommel opp/ned", needsPlayer: true),
     
     
     // MARK: Jeg har aldri (light blue)
-    VorsetStarterCard(title: "Jeg har aldri ...", description: "{player}", category: "jeg har aldri", needsPlayer: true),
+    DamenesAftenCard(title: "Jeg har aldri ...", description: "{player}", category: "jeg har aldri", needsPlayer: true),
     
     
     // MARK: Red flag, dealbreaker eller OK? (dark red)
-    VorsetStarterCard(title: "Red flag, dealbreaker eller OK?", description: "{player}", category: "red flag, dealbreaker eller OK", needsPlayer: true),
+    DamenesAftenCard(title: "Red flag, dealbreaker eller OK?", description: "{player}", category: "red flag, dealbreaker eller OK", needsPlayer: true),
     
     
     // MARK: Hot seat (red)
-    VorsetStarterCard(title: "Hot seat", description: "{player}", category: "hot seat", needsPlayer: true),
+    DamenesAftenCard(title: "Hot seat", description: "{player}", category: "hot seat", needsPlayer: true),
     
     
     // MARK: Er du stressa? (orange)
-    VorsetStarterCard(title: "Er du stressa?", description: "", category: "er du stressa", needsPlayer: false),
+    DamenesAftenCard(title: "Er du stressa?", description: "", category: "er du stressa", needsPlayer: false),
     
     
     // MARK: hemmelig spørsmål (pink)
-    VorsetStarterCard(title: "Hemmelig spørsmål", description: "", category: "hemmelig spørsmål", needsPlayer: false),
+    DamenesAftenCard(title: "Hemmelig spørsmål", description: "", category: "hemmelig spørsmål", needsPlayer: false),
     
     // MARK: Hva er oddsen ... (green)
-    VorsetStarterCard(title: "Hva er oddsen ...", description: "", category: "hva er oddsen", needsPlayer: false),
+    DamenesAftenCard(title: "Hva er oddsen ...", description: "", category: "hva er oddsen", needsPlayer: false),
     
     // MARK: ingen tittel (red)
-    VorsetStarterCard(title: "", description: "", category: "ingen tittel", needsPlayer: false),
-    VorsetStarterCard(title: "Flammer", description: "Drikk 1 slurk for hver person av det motsatte kjønn du har på topplisten på snap", category: "ingen tittel", needsPlayer: false),
+    DamenesAftenCard(title: "", description: "", category: "ingen tittel", needsPlayer: false),
+    DamenesAftenCard(title: "Flammer", description: "Drikk 1 slurk for hver person av det motsatte kjønn du har på topplisten på snap", category: "ingen tittel", needsPlayer: false),
 ]
 
 // MARK: Title Card
-struct VorsetStarterTitleCard: View {
+struct DamenesAftenTitleCard: View {
     @State private var isTapped = false
     @State private var offsetY: CGFloat = -300
     
     var body: some View {
         ZStack {
-            Text("Vorset Starter!")
+            Text("Damenes Aften!")
                 .font(Font.custom("LuckiestGuy-Regular", size: 32))
                 .foregroundColor(.white)
                 .shadow(radius: 5)

@@ -172,17 +172,24 @@ struct GameModeDetailView: View {
                 NavigationLink(destination: QACPickerView(players: players)) {
                     GameModeActionButton(title: "Se utvalg")
                 }
-            } else {
-                Button(action: {
-                    if gameMode.title == "Ferdighets Basert!" {
-                        print("Starting game mode: \(gameMode.title)")
-                    } else {
-                        print("Opening selection for: \(gameMode.title)")
-                    }
-                }) {
-                    GameModeActionButton(title: gameMode.title == "Ferdighets Basert!" ? "Spill" : "Se Utvalg")
+            }
+            
+            if gameMode.title == "Kanakkas Modus!" {
+                NavigationLink(destination: QACPickerView(players: players)) {
+                    GameModeActionButton(title: "Se utvalg")
                 }
-                
+            }
+            
+            if gameMode.title == "Kortstokk Basert!" {
+                NavigationLink(destination: QACPickerView(players: players)) {
+                    GameModeActionButton(title: "Se utvalg")
+                }
+            }
+            
+            if gameMode.title == "Ferdighets Basert!" {
+                NavigationLink(destination: QACPickerView(players: players)) {
+                    GameModeActionButton(title: "Spill!")
+                }
             }
             
             

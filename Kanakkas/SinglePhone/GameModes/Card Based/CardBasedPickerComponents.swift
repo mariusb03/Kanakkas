@@ -1,25 +1,25 @@
 //
-//  QACPickerComponents.swift
+//  CardBasedPickerComponents.swift
 //  Kanakkas
 //
-//  Created by Marius Bringsvor Rusten on 07/03/2025.
+//  Created by Marius Bringsvor Rusten on 11/03/2025.
 //
 
 import SwiftUI
 
 // MARK: Title Card
-struct QACPickerTitleCard: View {
+struct CardBasedPickerTitleCard: View {
     @State private var isTapped = false
     @State private var offsetY: CGFloat = -300
     
     var body: some View {
             ZStack {
-                Text("Velg pakke!")
+                Text("Velg spill!")
                     .font(Font.custom("LuckiestGuy-Regular", size: 43))
                     .foregroundColor(.red)
                     .shadow(color: .red, radius: 10)
                 
-                Text("Velg Pakke!")
+                Text("Velg spill!")
                     .font(Font.custom("LuckiestGuy-Regular", size: 40))
                     .foregroundColor(.white)
                     .shadow(color: .red, radius: 10)
@@ -41,19 +41,19 @@ struct QACPickerTitleCard: View {
 }
 
 // MARK: - QACPackButton
-struct QACPackButton: View {
-    let pack: QACPack
-    @Binding var selectedPack: QACPack?
+struct CardBasedGameButton: View {
+    let game: CardBasedGame
+    @Binding var selectedPack: CardBasedGame?
     let animation: Namespace.ID
     
     var body: some View {
         Button(action: {
             withAnimation(.spring()) {
-                selectedPack = pack
+                selectedPack = game
             }
         }) {
             ZStack {
-                Text(pack.title)
+                Text(game.title)
                     .font(Font.custom("LuckiestGuy-Regular", size: 33))
                     .foregroundColor(.red)
                     .shadow(color: .red, radius: 5)
@@ -61,9 +61,9 @@ struct QACPackButton: View {
                     .frame(width: 250, height: 100)
                     .cornerRadius(20)
                     .shadow(radius: 5)
-                    .matchedGeometryEffect(id: pack.title, in: animation)
+                    .matchedGeometryEffect(id: game.title, in: animation)
                 
-                Text(pack.title)
+                Text(game.title)
                     .font(Font.custom("LuckiestGuy-Regular", size: 30))
                     .foregroundColor(.white)
                     .shadow(color: .red, radius: 5)
@@ -71,15 +71,15 @@ struct QACPackButton: View {
                     .frame(width: 250, height: 100)
                     .cornerRadius(20)
                     .shadow(radius: 5)
-                    .matchedGeometryEffect(id: pack.title, in: animation)
+                    .matchedGeometryEffect(id: game.title, in: animation)
             }
         }
     }
 }
 
 // MARK: - QACPackDetailView (Expanded View)
-struct QACPackDetailView: View {
-    let qacPack: QACPack
+struct CardBasedGameDetailView: View {
+    let cardBasedGame: CardBasedGame
     let animation: Namespace.ID
     let onClose: () -> Void
     let players: [String]
@@ -90,7 +90,7 @@ struct QACPackDetailView: View {
                 Spacer()
                 
                 ZStack {
-                    Text(qacPack.title)
+                    Text(cardBasedGame.title)
                         .font(Font.custom("LuckiestGuy-Regular", size: 32))
                         .foregroundColor(.white)
                         .shadow(color: .red, radius: 5)
@@ -99,9 +99,9 @@ struct QACPackDetailView: View {
                         .frame(width: 300, height: 100)
                         .cornerRadius(20)
                         .shadow(radius: 5)
-                        .matchedGeometryEffect(id: qacPack.title, in: animation)
+                        .matchedGeometryEffect(id: cardBasedGame.title, in: animation)
                     
-                    Text(qacPack.title)
+                    Text(cardBasedGame.title)
                         .font(Font.custom("LuckiestGuy-Regular", size: 32))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
@@ -110,47 +110,47 @@ struct QACPackDetailView: View {
                         .frame(width: 300, height: 100)
                         .cornerRadius(20)
                         .shadow(radius: 5)
-                        .matchedGeometryEffect(id: qacPack.title, in: animation)
+                        .matchedGeometryEffect(id: cardBasedGame.title, in: animation)
                 }
                 
-                Text(qacPack.description)
+                Text(cardBasedGame.description)
                     .font(Font.custom("LuckiestGuy-Regular", size: 20))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding()
                     .frame(width: 550, height: 150)
                 
-                if qacPack.title == "Vorset          Starter!" {
+                if cardBasedGame.title == "Vorset          Starter!" {
                     NavigationLink(destination: VorsetStarterGameView(players: players)) {
                         GameModeActionButton(title: "Spill")
                     }
                 }
                 
-                if qacPack.title == "Damenes        aften!" {
+                if cardBasedGame.title == "Damenes        aften!" {
                     NavigationLink(destination: DamenesAftenGameView(players: players)) {
                         GameModeActionButton(title: "Spill")
                     }
                 }
                 
-                if qacPack.title == "All-In gutta!" {
+                if cardBasedGame.title == "All-In gutta!" {
                     NavigationLink(destination: AllInGuttaGameView(players: players)) {
                         GameModeActionButton(title: "Spill")
                     }
                 }
                 
-                if qacPack.title == "Er det varmt her?" {
+                if cardBasedGame.title == "Er det varmt her?" {
                     NavigationLink(destination: ErDetVarmtHerGameView(players: players)) {
                         GameModeActionButton(title: "Spill")
                     }
                 }
                 
-                if qacPack.title == "Nach!" {
+                if cardBasedGame.title == "Nach!" {
                     NavigationLink(destination: NachGameView(players: players)) {
                         GameModeActionButton(title: "Spill")
                     }
                 }
                 
-                if qacPack.title == "Dag 2!" {
+                if cardBasedGame.title == "Dag 2!" {
                     NavigationLink(destination: Dag2GameView(players: players)) {
                         GameModeActionButton(title: "Spill")
                     }
@@ -173,7 +173,7 @@ struct QACPackDetailView: View {
 
 
 // MARK: - QACPack Model
-struct QACPack: Identifiable {
+struct CardBasedGame: Identifiable {
     let id = UUID()
     let title: String
     let color: Color
@@ -182,28 +182,30 @@ struct QACPack: Identifiable {
 
 
 // MARK: Free Packs
-let QACFreePacks = [
-    QACPack(title: "Vorset          Starter!", color: .red, description: "Er alle klare for å få promillen opp? Pakken byr på høy flaskeføring og legger grunnlaget for kveldens hendelser!"),
-    QACPack(title: "All-In gutta!", color: .blue, description: "Gjør dere klare boys! Denne skal kjennes dagen derpå! Knekk noen kalde, start pakken og la alkoholen flyte fortløpende gjennom spørsmål og utfordringer kun gutta tolererer!"),
-    QACPack(title: "Damenes        aften!", color: .pink, description: "På tide å sette stemningen damer! Sprett vinflaskene og la den renne gjennom pakken som byr på høy flaske- og gossip-føring!"),
-    QACPack(title: "Er det varmt her?", color: .orange, description: "Klar for å bli drita og kleine? Det er hvertfall det pakken har å tilby! Grenser skal sprenges, og deres sensuelle sider skal få komme ut i lyset!"),
-    QACPack(title: "Nach!", color: .purple, description: "Herlighet, fortsatt ikke klare for å legge ned flaska? Jaja, ta det som en nedtrapping da! La alkoholen renne og gjør dere klare for å dele livshistorier!"),
-    QACPack(title: "Dag 2!", color: .yellow, description: "For dere som ikke syntes 1 dag var nok, så begynner dag 2 her! Start rolig og kjør opp mer enn i går!")
+let cardBasedFreeGames = [
+    CardBasedGame(title: "Over/under!", color: .red, description: "!"),
+    
+    CardBasedGame(title: "Kongens Kopp!", color: .blue, description: "!"),
+    
+    CardBasedGame(title: "Buss Turen!", color: .pink, description: "!"),
+    
 ]
 
 
 // MARK: Paid Packs
-let QACPaidPacks = [
-    QACPack(title: "Premium      Pack 1", color: .gray, description: "Lås opp eksklusive drikkeleker!"),
-    QACPack(title: "Premium      Pack 2", color: .black, description: "Mest ekstreme utfordringer!"),
-    QACPack(title: "Premium      Pack 3", color: .gold, description: "VIP-pakken for hardcore festere!")
+let cardBasedPaidGames = [
+    CardBasedGame(title: "Krig!", color: .gray, description: "!"),
+    
+    CardBasedGame(title: "Premium      Pack 2", color: .black, description: "!"),
+    
+    CardBasedGame(title: "Premium      Pack 3", color: .gold, description: "!")
 ]
 
 // 🛠 Preview
-struct QACPickerComponentsView_Previews: PreviewProvider {
+struct CardBasedPickerComponents_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            QACPickerView(players: ["Hurb", "Bruh"])
+            CardBasedPickerView(players: ["Hurb", "Bruh"])
         }
          
     }
