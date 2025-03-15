@@ -77,7 +77,6 @@ struct CardBasedGameButton: View {
     }
 }
 
-// MARK: - Game Detail View
 struct CardBasedGameDetailView: View {
     let cardBasedGame: CardBasedGame
     let animation: Namespace.ID
@@ -109,7 +108,7 @@ struct CardBasedGameDetailView: View {
                     .padding()
                     .frame(width: 700, height: 150)
                 
-                NavigationLink(destination: cardBasedGame.view) {
+                NavigationLink(destination: cardBasedGame.getView(players: players)) {
                     GameModeActionButton(title: "Spill")
                 }
                 
@@ -133,28 +132,65 @@ struct CardBasedGame: Identifiable {
     let title: String
     let color: Color
     let description: String
-    let view: AnyView
+    let viewProvider: ([String]) -> AnyView // Accepts players and returns a view
+    
+    func getView(players: [String]) -> AnyView {
+        return viewProvider(players)
+    }
 }
 
 
 // MARK: Free Packs
 let cardBasedFreeGames = [
-    CardBasedGame(title: "Over/under!", color: .red, description: "Tipp om neste korter er høyere eller lavere enn forrige kort! \n Gjetter hen riktig, Fortsett til neste spiller og legg til en slurk i taperpotten!\n Gjetter hen feil, må hen ta alle slurkene i potten og dere begynner på nytt!", view: AnyView(OverUnderGameView())),
+    CardBasedGame(
+        title: "Over/under!",
+        color: .red,
+        description: "Tipp om neste korter er høyere eller lavere enn forrige kort! \n Gjetter hen riktig, Fortsett til neste spiller og legg til en slurk i taperpotten!\n Gjetter hen feil, må hen ta alle slurkene i potten og dere begynner på nytt!",
+        viewProvider: { players in AnyView(OverUnderGameView())
+            }
+    ),
     
-    CardBasedGame(title: "Kongens Kopp!", color: .blue, description: "!", view: AnyView(Text("Kongens Kopp Coming Soon!"))) ,
+    CardBasedGame(
+        title: "Kongens Kopp!",
+        color: .blue,
+        description: "!",
+        viewProvider: { players in AnyView(KrigGameView(players: players)) }
+    ),
     
-    CardBasedGame(title: "Vanlig Kortstokk!", color: .pink, description: "Her finner dere på regler selv, bare fantasisen setter grenser!",view: AnyView(DeckOfCardsGameView())) ,
+    CardBasedGame(
+        title: "Vanlig Kortstokk!",
+        color: .pink,
+        description: "Her finner dere på regler selv, bare fantasisen setter grenser!",
+        viewProvider: { players in AnyView(DeckOfCardsGameView())
+        }
+    ),
     
 ]
 
 
 // MARK: Paid Packs
+// MARK: Paid Packs
 let cardBasedPaidGames = [
-    CardBasedGame(title: "Krig!", color: .gray, description: "Hver spiller trekker et kort, den med høyeste kortet vinner runden! \n får spillerene samme verdi, blir det krig! Her dobles mengden super for hver krig! \n lykke til!", view: AnyView(KrigGameView(players: ["Player 1", "Player 2"]))),
+    CardBasedGame(
+        title: "Krig!",
+        color: .gray,
+        description: "Hver spiller trekker et kort, den med høyeste kortet vinner runden! \n Får spillerene samme verdi, blir det krig! Her dobles mengden slurker for hver krig! \n Lykke til!",
+        viewProvider: { players in AnyView(KrigGameView(players: players)) }
+    ),
     
-    CardBasedGame(title: "Buss ruta!", color: .black, description: "Her skal alle gjennom bussruta! \n Trykk på et kort på første rad og beveg deg gradvis oppover!", view: AnyView(BussrutaGameView(players: ["Player 1", "Player 2"]))),
+    CardBasedGame(
+        title: "Buss ruta!",
+        color: .black,
+        description: "Her skal alle gjennom bussruta! \n Trykk på et kort på første rad og beveg deg gradvis oppover!",
+        viewProvider: { players in AnyView(BussrutaGameView(players: players)) }
+    ),
     
-    CardBasedGame(title: "Premium      Pack 3", color: .gold, description: "!", view: AnyView(Text("pack Coming Soon!")))
+    CardBasedGame(
+        title: "Premium      Pack 3",
+        color: .gold,
+        description: "!",
+        viewProvider: { _ in AnyView(Text("Pack Coming Soon!")) }
+    )
 ]
 
 // 🛠 Preview
