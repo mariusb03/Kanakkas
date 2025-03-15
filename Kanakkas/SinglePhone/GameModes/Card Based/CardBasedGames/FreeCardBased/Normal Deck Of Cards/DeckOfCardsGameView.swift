@@ -74,6 +74,7 @@ struct DeckOfCardsGameView: View {
             TableEdge()
         )
         .animation(.easeInOut(duration: 0.5), value: showInfo) // Animate overlay appearance
+        .navigationBarBackButtonHidden(true)
     }
 }
 

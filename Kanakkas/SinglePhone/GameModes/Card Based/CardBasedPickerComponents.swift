@@ -94,8 +94,8 @@ struct CardBasedGameDetailView: View {
                         .foregroundColor(.white)
                         .shadow(color: .red, radius: 5)
                         .multilineTextAlignment(.center)
-                        .padding()
-                        .frame(width: 300, height: 100)
+                        
+                        .frame(width: 300, height: 50)
                         .cornerRadius(20)
                         .shadow(radius: 5)
                         .matchedGeometryEffect(id: cardBasedGame.title, in: animation)
@@ -105,8 +105,10 @@ struct CardBasedGameDetailView: View {
                     .font(Font.custom("LuckiestGuy-Regular", size: 20))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
-                    .padding()
-                    .frame(width: 700, height: 150)
+                    
+                    .shadow(color: .red, radius: 5)
+                    .shadow(color: .red, radius: 5)
+                    .frame(width: 700, height: 200)
                 
                 NavigationLink(destination: cardBasedGame.getView(players: players)) {
                     GameModeActionButton(title: "Spill")
@@ -153,8 +155,8 @@ let cardBasedFreeGames = [
     CardBasedGame(
         title: "Kongens Kopp!",
         color: .blue,
-        description: "!",
-        viewProvider: { players in AnyView(KrigGameView(players: players)) }
+        description: "Trekk et kort og gjør det kortet sier! \n Telefonen går deretter videre til venstre! \n Hold på så lenge der vill!",
+        viewProvider: { players in AnyView(KongensKoppGameView()) }
     ),
     
     CardBasedGame(
@@ -186,10 +188,10 @@ let cardBasedPaidGames = [
     ),
     
     CardBasedGame(
-        title: "Premium      Pack 3",
+        title: "Bets!",
         color: .gold,
-        description: "!",
-        viewProvider: { _ in AnyView(Text("Pack Coming Soon!")) }
+        description: "2 tilfeldige spillere velget ut! \n Hver spiller velger hvor mage super de vil vedde! \n spillet trekker deretter 2 tilfeldige kort! \n laveste kortet taper og må drikke det hen veddet! \n deretter må hen fortsette til hen vinner! \n vinneren får dele ut det hen veddet til noen andre i rommet!",
+        viewProvider: { players in AnyView(BetsGameView(players: players)) }
     )
 ]
 

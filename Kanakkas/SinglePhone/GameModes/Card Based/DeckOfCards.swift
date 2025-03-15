@@ -13,14 +13,18 @@ struct Card: Identifiable, Equatable {
     let suit: String
     let rank: String
 
+    init(suit: String, rank: String) {
+        self.suit = suit
+        self.rank = rank.trimmingCharacters(in: .whitespacesAndNewlines).uppercased() // Normalize case & spaces
+    }
+
     var description: String {
         return "\(rank) of \(suit)"
     }
-    
-    // ✅ Define equality check based on rank
-        static func == (lhs: Card, rhs: Card) -> Bool {
-            return lhs.rank == rhs.rank
-        }
+
+    static func == (lhs: Card, rhs: Card) -> Bool {
+        return lhs.rank == rhs.rank && lhs.suit == rhs.suit
+    }
 }
 
 // MARK: - Infinite Deck Manager
@@ -29,19 +33,23 @@ class InfiniteDeck: ObservableObject {
     
     private let suits = ["♠️", "♥️", "♦️", "♣️"]
     private let ranks = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
-
+    
     init() {
         shuffleDeck()
     }
-
+    
     // Draw a card from the deck
     func drawCard() -> Card {
         if deck.isEmpty {
             shuffleDeck()
         }
-        return deck.removeFirst()
-    }
+        let drawnCard = deck.removeFirst()
 
+        print("🃏 Drawn card: Rank = '\(drawnCard.rank)', Suit = '\(drawnCard.suit)'") // Debug output
+
+        return drawnCard
+    }
+    
     // Shuffle and recreate the deck
     private func shuffleDeck() {
         deck = suits.flatMap { suit in
@@ -52,6 +60,7 @@ class InfiniteDeck: ObservableObject {
         deck.shuffle()
     }
 }
+
 
 // MARK: - Card Game View (Handles Tap to Draw with Animation)
 struct CardGameView: View {
@@ -105,13 +114,17 @@ struct CardGameView: View {
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                updatePreviousCard(currentCard) // Send the current card as the previous card
-                
-                currentCard = nextCard // The next card becomes the current card
-                nextCard = deck.drawCard() // Load a new card under the deck
-                cardOffset = 0 // Reset position for the next animation
+                currentCard = nextCard
+                nextCard = deck.drawCard()
+
+                DispatchQueue.main.async {
+                    updatePreviousCard(currentCard) // ✅ Call AFTER UI updates
+                } // Load a new card under the deck
+                cardOffset = 0 // Reset position
                 isSliding = false
                 showCurrentCard = true // Show current card again
+                
+                print("🎴 New current card: \(currentCard.rank) of \(currentCard.suit)")
             }
         }
         
@@ -134,7 +147,6 @@ struct CardView: View {
 
     var body: some View {
         ZStack {
-            // Card Shape
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color.white)
                 .frame(width: 200, height: 320)
@@ -145,12 +157,12 @@ struct CardView: View {
                 )
 
             VStack {
-                // Top-left rank & suit
                 HStack {
                     VStack(alignment: .leading) {
-                        Text(card.rank)
+                        Text(card.rank.trimmingCharacters(in: .whitespacesAndNewlines)) // Ensure no spaces
                             .font(Font.custom("LuckiestGuy-Regular", size: 32))
                             .foregroundColor(getSuitColor(card.suit))
+
                         Text(card.suit)
                             .font(.title)
                     }
@@ -160,31 +172,34 @@ struct CardView: View {
 
                 Spacer()
 
-                // Large Suit in Center
                 Text(card.suit)
                     .font(.system(size: 80))
                     .shadow(color: getSuitColor(card.suit).opacity(0.8), radius: 8)
 
                 Spacer()
 
-                // Bottom-right rank & suit (Mirrored)
                 HStack {
                     Spacer()
                     VStack(alignment: .trailing) {
                         Text(card.suit)
                             .font(.title)
-                        Text(card.rank)
+                        Text(card.rank.trimmingCharacters(in: .whitespacesAndNewlines))
                             .font(Font.custom("LuckiestGuy-Regular", size: 32))
                             .foregroundColor(getSuitColor(card.suit))
                     }
-                    .rotationEffect(.degrees(180)) // Flip for playing card style
+                    .rotationEffect(.degrees(180))
                     .padding(.trailing, 5)
                 }
             }
             .padding(12)
         }
         .frame(width: 200, height: 200)
+        .onAppear {
+            print("🃏 Displaying card: Rank = '\(card.rank)', Suit = '\(card.suit)'") // Debug UI
+        }
     }
+
+
     
 
     // Suit color function (Red for Hearts & Diamonds, Black for Clubs & Spades)

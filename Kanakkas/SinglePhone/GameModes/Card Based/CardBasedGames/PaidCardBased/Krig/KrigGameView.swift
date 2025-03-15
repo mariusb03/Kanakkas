@@ -168,12 +168,12 @@ struct KrigGameView: View {
         let winner = determineWinner(card1: newCard1, card2: newCard2)
         
         if winner == 1 {
-            resultMessage = "\(player1) vant! \(player2) drikker \(1 * sipMultiplier) slurk(er). \(player1) deler ut \(2 * sipMultiplier) slurker."
+            resultMessage = "\(player1) vant! \(player2) drikker \(1 * sipMultiplier) slurk(er). \(player1) deler ut \(2 * sipMultiplier) slurker. \n \(player2) fortsetter"
             pendingWinner = player1
             sipMultiplier = 1
             isWar = false
         } else if winner == 2 {
-            resultMessage = "\(player2) vant! \(player1) drikker \(1 * sipMultiplier) slurk(er). \(player2) deler ut \(2 * sipMultiplier) slurker."
+            resultMessage = "\(player2) vant! \(player1) drikker \(1 * sipMultiplier) slurk(er). \(player2) deler ut \(2 * sipMultiplier) slurker. \n \(player1) fortsetter"
             pendingWinner = player2
             sipMultiplier = 1
             isWar = false
@@ -233,7 +233,8 @@ struct ResultPopupView: View {
         VStack {
             Text(message)
                 .font(Font.custom("LuckiestGuy-Regular", size: 22))
-                .foregroundColor(.yellow)
+                .foregroundColor(.white)
+                .multilineTextAlignment(.center)
                 .padding()
                 .background(Color.red.opacity(0.8))
                 .cornerRadius(15)
