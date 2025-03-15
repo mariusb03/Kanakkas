@@ -184,10 +184,15 @@ struct QACPack: Identifiable {
 // MARK: Free Packs
 let QACFreePacks = [
     QACPack(title: "Vorset          Starter!", color: .red, description: "Er alle klare for å få promillen opp? Pakken byr på høy flaskeføring og legger grunnlaget for kveldens hendelser!"),
+    
     QACPack(title: "All-In gutta!", color: .blue, description: "Gjør dere klare boys! Denne skal kjennes dagen derpå! Knekk noen kalde, start pakken og la alkoholen flyte fortløpende gjennom spørsmål og utfordringer kun gutta tolererer!"),
+    
     QACPack(title: "Damenes        aften!", color: .pink, description: "På tide å sette stemningen damer! Sprett vinflaskene og la den renne gjennom pakken som byr på høy flaske- og gossip-føring!"),
-    QACPack(title: "Er det varmt her?", color: .orange, description: "Klar for å bli drita og kleine? Det er hvertfall det pakken har å tilby! Grenser skal sprenges, og deres sensuelle sider skal få komme ut i lyset!"),
+    
+    QACPack(title: "Er det varmt her?", color: .orange, description: "For dere som synes temperaturen er blitt for høy og mener noen klesplagg pmå rives av!\n Stripp ned, knekk noen kalde og gjør klar for å bli både kleine og Nakne!"),
+    
     QACPack(title: "Nach!", color: .purple, description: "Herlighet, fortsatt ikke klare for å legge ned flaska? Jaja, ta det som en nedtrapping da! La alkoholen renne og gjør dere klare for å dele livshistorier!"),
+    
     QACPack(title: "Dag 2!", color: .yellow, description: "For dere som ikke syntes 1 dag var nok, så begynner dag 2 her! Start rolig og kjør opp mer enn i går!")
 ]
 

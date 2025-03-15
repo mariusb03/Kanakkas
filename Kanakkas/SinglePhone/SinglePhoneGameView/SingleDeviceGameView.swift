@@ -54,7 +54,7 @@ struct SingleDeviceGameView: View {
                         }
                         HStack {
                             Spacer()
-                            GameModeButton(title: "Kortstokk Basert!", color: .green, description: "Diverse utvalg kortspill for de som mangler kortstokk!                                          (Evig kortstokk for alle spill)", selectedMode: $selectedMode, animation: animation)
+                            GameModeButton(title: "Kortstokk Basert!", color: .green, description: "Diverse utvalg kortspill for de som mangler kortstokk!\n    (Evig kortstokk for alle spill)", selectedMode: $selectedMode, animation: animation)
                             Spacer()
                             GameModeButton(title: "Ferdighets Basert!", color: .orange, description: "Test ferdighetene dine i ulike utfordringer!", selectedMode: $selectedMode, animation: animation)
                             Spacer()
@@ -156,7 +156,7 @@ struct GameModeDetailView: View {
             }
             
             Text(gameMode.description)
-                .font(Font.custom("LuckiestGuy-Regular", size: 15))
+                .font(Font.custom("LuckiestGuy-Regular", size: 20))
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
                 .padding()
@@ -181,7 +181,7 @@ struct GameModeDetailView: View {
             }
             
             if gameMode.title == "Kortstokk Basert!" {
-                NavigationLink(destination: QACPickerView(players: players)) {
+                NavigationLink(destination: CardBasedPickerView(players: players)) {
                     GameModeActionButton(title: "Se utvalg")
                 }
             }

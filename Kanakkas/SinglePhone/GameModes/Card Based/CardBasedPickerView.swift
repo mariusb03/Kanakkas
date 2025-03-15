@@ -117,7 +117,7 @@ struct CardBasedPickerView: View {
 struct CardBasedPickerView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            CardBasedPickerView(players: ["Spiller 1", "Spiller 2"])
+            CardBasedPickerView(players: ["Bruh", "Hurb"])
         }
     }
 }

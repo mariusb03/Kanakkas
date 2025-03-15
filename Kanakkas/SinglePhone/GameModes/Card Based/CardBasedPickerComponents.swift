@@ -187,7 +187,7 @@ let cardBasedFreeGames = [
     
     CardBasedGame(title: "Kongens Kopp!", color: .blue, description: "!"),
     
-    CardBasedGame(title: "Buss Turen!", color: .pink, description: "!"),
+    CardBasedGame(title: "Vanlig Kortstokk!", color: .pink, description: "!"),
     
 ]
 
@@ -196,7 +196,7 @@ let cardBasedFreeGames = [
 let cardBasedPaidGames = [
     CardBasedGame(title: "Krig!", color: .gray, description: "!"),
     
-    CardBasedGame(title: "Premium      Pack 2", color: .black, description: "!"),
+    CardBasedGame(title: "Buss Turen!", color: .black, description: "!"),
     
     CardBasedGame(title: "Premium      Pack 3", color: .gold, description: "!")
 ]

@@ -37,7 +37,7 @@ let vorsetStarterCategoryColors: [String: Color] = [
 let vorsetStarterCards: [VorsetStarterCard] = [
     
     // MARK: Kategori (dark blue)
-    VorsetStarterCard(title: "Kategorien er ...", description: "Idrettsstjerner, den mest atletiske starter", category: "kategori", needsPlayer: false),
+    VorsetStarterCard(title: "Kategorien er ...", description: ", {player} starter", category: "kategori", needsPlayer: true),
     
     // MARK: Pekelek (green)
     VorsetStarterCard(title: "Pekelek", description: "Hvem er best til å lyve?", category: "pekelek", needsPlayer: false),
@@ -69,18 +69,23 @@ let vorsetStarterCards: [VorsetStarterCard] = [
     
     
     // MARK: Er du stressa? (orange)
-    VorsetStarterCard(title: "Er du stressa?", description: "", category: "er du stressa", needsPlayer: false),
+    VorsetStarterCard(title: "Er du stressa?", description: "{player}", category: "er du stressa", needsPlayer: true),
     
     
     // MARK: hemmelig spørsmål (pink)
-    VorsetStarterCard(title: "Hemmelig spørsmål", description: "", category: "hemmelig spørsmål", needsPlayer: false),
+    VorsetStarterCard(title: "Hemmelig spørsmål", description: "{player}", category: "hemmelig spørsmål", needsPlayer: true),
+    
     
     // MARK: Hva er oddsen ... (green)
-    VorsetStarterCard(title: "Hva er oddsen ...", description: "", category: "hva er oddsen", needsPlayer: false),
+    VorsetStarterCard(title: "Hva er oddsen ...", description: "{player}", category: "hva er oddsen", needsPlayer: true),
+    
+    
+    // MARK: Historie (Orange)
+    VorsetStarterCard(title: "Historie", description: "{player}", category: "historie", needsPlayer: true),
     
     // MARK: ingen tittel (red)
     VorsetStarterCard(title: "", description: "", category: "ingen tittel", needsPlayer: false),
-    VorsetStarterCard(title: "Flammer", description: "Drikk 1 slurk for hver person av det motsatte kjønn du har på topplisten på snap", category: "ingen tittel", needsPlayer: false),
+    VorsetStarterCard(title: "", description: "Drikk 1 slurk for hver person av det motsatte kjønn du har på topplisten på snap", category: "ingen tittel", needsPlayer: false),
 ]
 
 // MARK: Title Card
