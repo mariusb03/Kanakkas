@@ -1,20 +1,13 @@
 //
-//  DeckOfCardsInfoView.swift
+//  KrigInfoView.swift
 //  Kanakkas
 //
-//  Created by Marius Bringsvor Rusten on 12/03/2025.
-//
-
-//
-//  OverUnderInfoView.swift
-//  Kanakkas
-//
-//  Created by Marius Bringsvor Rusten on 12/03/2025.
+//  Created by Marius Bringsvor Rusten on 15/03/2025.
 //
 
 import SwiftUI
 
-struct DeckOfCardsInfoView: View {
+struct KrigInfoView: View {
     var dismiss: () -> Void // Closure to close the info view
 
     var body: some View {
@@ -28,13 +21,13 @@ struct DeckOfCardsInfoView: View {
             
             // 📜 Info Card
             VStack(spacing: 20) {
-                Text("📜 Vanlig Kortstokk! 📜")
+                Text("📜 Krig! 📜")
                     .font(Font.custom("LuckiestGuy-Regular", size: 34))
                     .foregroundColor(.white)
                     .shadow(color: .red, radius: 5)
                 
-                Text("Finn på helt egne regler, ingenting stopper dere!")
-                    .font(Font.custom("LuckiestGuy-Regular", size: 22))
+                Text("Hver spiller trekker et kort, den med høyeste kortet vinner runden! \n får spillerene samme verdi, blir det krig! Her dobles mengden super for hver krig! \n lykke til!")
+                    .font(Font.custom("LuckiestGuy-Regular", size: 20))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding()
@@ -65,8 +58,8 @@ struct DeckOfCardsInfoView: View {
 
 
 // MARK: - Preview
-struct DeckOfCardsInfoView_Previews: PreviewProvider {
+struct KrigInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        DeckOfCardsInfoView(dismiss: {})
+       KrigInfoView(dismiss: {})
     }
 }

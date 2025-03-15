@@ -1,5 +1,5 @@
 //
-//  Untitled.swift
+//  CardBasedPickerView.swift
 //  Kanakkas
 //
 //  Created by Marius Bringsvor Rusten on 11/03/2025.
@@ -47,7 +47,7 @@ struct CardBasedPickerView: View {
                             content: {
                                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]) {
                                     ForEach(cardBasedFreeGames, id: \.id) { game in
-                                        CardBasedGameButton(game: game, selectedPack: $selectedGame, animation: animation)
+                                        CardBasedGameButton(game: game, selectedGame: $selectedGame, animation: animation)
                                     }
                                 }
                             },
@@ -77,7 +77,7 @@ struct CardBasedPickerView: View {
                             content: {
                                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
                                     ForEach(cardBasedPaidGames, id: \.id) { game in
-                                        CardBasedGameButton(game: game, selectedPack: $selectedGame, animation: animation)
+                                        CardBasedGameButton(game: game, selectedGame: $selectedGame, animation: animation)
                                     }
                                 }
                             },
@@ -117,7 +117,7 @@ struct CardBasedPickerView: View {
 struct CardBasedPickerView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            CardBasedPickerView(players: ["Bruh", "Hurb"])
+            CardBasedPickerView(players: ["Spiller 1", "Spiller 2"])
         }
     }
 }

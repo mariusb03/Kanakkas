@@ -8,7 +8,7 @@
 import SwiftUI
 
 // MARK: - Card Model
-struct Card: Identifiable {
+struct Card: Identifiable, Equatable {
     let id = UUID()
     let suit: String
     let rank: String
@@ -16,6 +16,11 @@ struct Card: Identifiable {
     var description: String {
         return "\(rank) of \(suit)"
     }
+    
+    // ✅ Define equality check based on rank
+        static func == (lhs: Card, rhs: Card) -> Bool {
+            return lhs.rank == rhs.rank
+        }
 }
 
 // MARK: - Infinite Deck Manager
@@ -54,16 +59,19 @@ struct CardGameView: View {
     @State private var currentCard: Card
     @State private var nextCard: Card
     @State private var cardOffset: CGFloat = 0
+    @State private var cardOpacity: Double = 1.0
+    @State private var isSliding = false
+    @State private var showCurrentCard = true
+    
     var updatePreviousCard: (Card) -> Void // Closure to update the previous card
-
+    
     init(updatePreviousCard: @escaping (Card) -> Void) {
-        let initialCard = Card(suit: "♥️", rank: "A") // Default start card
-        let secondCard = Card(suit: "♠️", rank: "K") // Preload the next card
-        _currentCard = State(initialValue: initialCard)
-        _nextCard = State(initialValue: secondCard)
+        let deck = InfiniteDeck() // Create deck inside init
+        _currentCard = State(initialValue: deck.drawCard()) // Draw first random card
+        _nextCard = State(initialValue: deck.drawCard()) // Draw second random card
         self.updatePreviousCard = updatePreviousCard
     }
-
+    
     var body: some View {
         ZStack {
             // Fake deck background
@@ -75,28 +83,38 @@ struct CardGameView: View {
                     )
                     .offset(x: CGFloat(-15 + (index * 5)), y: CGFloat(15 - (index * 5)))
             }
-
+            
             // Next card (Always underneath, ready to be revealed)
             CardView(card: nextCard)
-                .opacity(1)
-
+                .opacity(cardOpacity)
+            
             // Current card (only visible when not sliding off)
-            CardView(card: currentCard)
-                .offset(x: cardOffset)
-                .animation(.easeInOut(duration: 0.4), value: cardOffset)
+            if showCurrentCard {
+                CardView(card: currentCard)
+                    .offset(x: cardOffset) // Moves off screen
+                    .animation(.easeInOut(duration: 0.4), value: cardOffset) // Smooth slide
+            }
         }
+        .frame(width: 200, height: 220)
         .onTapGesture {
-            withAnimation {
-                cardOffset = UIScreen.main.bounds.width // Slide current card off right
-            }
-
+            isSliding = true
+            cardOffset = UIScreen.main.bounds.width // Slide current card off right
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                updatePreviousCard(currentCard) // Update previous card
-                currentCard = nextCard // Next card becomes current
-                nextCard = deck.drawCard() // Draw new card
-                cardOffset = 0 // Reset position
+                showCurrentCard = false // Hide current card once it's off-screen
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                updatePreviousCard(currentCard) // Send the current card as the previous card
+                
+                currentCard = nextCard // The next card becomes the current card
+                nextCard = deck.drawCard() // Load a new card under the deck
+                cardOffset = 0 // Reset position for the next animation
+                isSliding = false
+                showCurrentCard = true // Show current card again
             }
         }
+        
     }
 }
 
@@ -165,7 +183,73 @@ struct CardView: View {
             }
             .padding(12)
         }
-        .frame(width: 180, height: 300)
+        .frame(width: 200, height: 200)
+    }
+    
+
+    // Suit color function (Red for Hearts & Diamonds, Black for Clubs & Spades)
+    private func getSuitColor(_ suit: String) -> Color {
+        return (suit == "♥️" || suit == "♦️") ? .red : .black
+    }
+}
+
+
+// MARK: - Card View
+struct KrigCardView: View {
+    let card: Card
+
+    var body: some View {
+        ZStack {
+            // Card Shape
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.white)
+                .frame(width: 140, height: 220)
+                .shadow(color: getSuitColor(card.suit), radius: 10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(getSuitColor(card.suit), lineWidth: 3)
+                )
+
+            VStack {
+                // Top-left rank & suit
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(card.rank)
+                            .font(Font.custom("LuckiestGuy-Regular", size: 32))
+                            .foregroundColor(getSuitColor(card.suit))
+                        Text(card.suit)
+                            .font(.title)
+                    }
+                    .padding(.leading, 15)
+                    Spacer()
+                }
+
+                Spacer()
+
+                // Large Suit in Center
+                Text(card.suit)
+                    .font(.system(size: 80))
+                    .shadow(color: getSuitColor(card.suit).opacity(0.8), radius: 8)
+
+                Spacer()
+
+                // Bottom-right rank & suit (Mirrored)
+                HStack {
+                    Spacer()
+                    VStack(alignment: .trailing) {
+                        Text(card.suit)
+                            .font(.title)
+                        Text(card.rank)
+                            .font(Font.custom("LuckiestGuy-Regular", size: 32))
+                            .foregroundColor(getSuitColor(card.suit))
+                    }
+                    .rotationEffect(.degrees(180)) // Flip for playing card style
+                    .padding(.trailing, 5)
+                }
+            }
+            .padding(12)
+        }
+        .frame(width: 140, height: 220)
     }
 
     // Suit color function (Red for Hearts & Diamonds, Black for Clubs & Spades)

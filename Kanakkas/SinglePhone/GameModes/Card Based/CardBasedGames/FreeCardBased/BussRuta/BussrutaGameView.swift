@@ -13,23 +13,24 @@ struct BussrutaGameView: View {
     @State private var flippedCards: [[Bool]]
     @State private var pyramid: [[Card]]
     @State private var currentRow = 0
-    @State private var showDrinkAlert = false
+    @State private var showDrinkScreen = false // ✅ Replaces alert
     @State private var showWinScreen = false
     @State private var drinkMessage = ""
     @State private var shouldResetGame = false
     @State private var currentPlayerIndex = 0
-
+    @State private var showInfo = false
+    
     let players: [String]
     let cardWidth: CGFloat = UIScreen.main.bounds.width / 10
     let cardHeight: CGFloat = UIScreen.main.bounds.height / 3
-
+    
     init(players: [String]) {
         self.players = players
         let newPyramid = BussrutaGameView.generatePyramid(rowSizes: rowSizes)
         _flippedCards = State(initialValue: rowSizes.map { Array(repeating: false, count: $0) })
         _pyramid = State(initialValue: newPyramid)
     }
-
+    
     var body: some View {
         ZStack {
             HomeBackground()
@@ -38,6 +39,16 @@ struct BussrutaGameView: View {
                     CongratulationsView(
                         playerName: players[currentPlayerIndex],
                         onNext: switchToNextPlayer
+                    )
+                } else if showDrinkScreen {
+                    DrinkingMessageView(
+                        message: drinkMessage,
+                        onDismiss: {
+                            showDrinkScreen = false
+                            if shouldResetGame {
+                                resetPlayer()
+                            }
+                        }
                     )
                 } else {
                     HStack {
@@ -57,25 +68,25 @@ struct BussrutaGameView: View {
                         }
                         Spacer()
                         BussrutaInfoButton {
-                            print("opened info")
-                        }
+                            showInfo = true // 
+                            }
                     }
-
+                    
                     ZStack {
                         Text("Spiller: \(players[currentPlayerIndex])")
                             .font(Font.custom("LuckiestGuy-Regular", size: 32))
                             .foregroundStyle(.red)
                             .padding(.bottom, 10)
                             .shadow(color: .red, radius: 5)
-
+                        
                         Text("Spiller: \(players[currentPlayerIndex])")
                             .font(Font.custom("LuckiestGuy-Regular", size: 30))
                             .foregroundStyle(.white)
                             .padding(.bottom, 10)
                     }
-
+                    
                     Spacer()
-
+                    
                     ScrollViewReader { proxy in
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack(spacing: 10) {
@@ -102,42 +113,38 @@ struct BussrutaGameView: View {
                             .frame(maxWidth: .infinity)
                         }
                     }
-
+                    
                     Spacer()
                 }
             }
-            .alert(isPresented: $showDrinkAlert) {
-                Alert(
-                    title: Text("Drikk!"),
-                    message: Text(drinkMessage),
-                    dismissButton: .default(Text("OK")) {
-                        if shouldResetGame {
-                            resetPlayer()
-                        }
-                    }
-                )
+            if showInfo {
+                BussrutaInfoView {
+                    showInfo = false // Dismiss overlay
+                }
+                .transition(.opacity) // Smooth fade-in effect
             }
         }
         .overlay(
             TableEdge()
         )
+        .navigationBarBackButtonHidden(true)
     }
-
+    
     // ✅ Handle Card Flip Logic + Auto-Scroll to Next Row
     private func handleCardFlip(row: Int, col: Int, proxy: ScrollViewProxy) {
         let pyramidCard = pyramid[row][col]
-
+        
         if ["A", "J", "Q", "K"].contains(pyramidCard.rank) {
             drinkMessage = getDrinkMessage(for: row)
-            showDrinkAlert = true
+            showDrinkScreen = true // ✅ Show the new drinking message view
             shouldResetGame = true
         } else {
             flippedCards[row][col] = true
             if currentRow + 1 < rowSizes.count {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // ✅ Delayed scroll for smoother transition
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     withAnimation {
-                        currentRow += 1 // Move to next row
-                        proxy.scrollTo(currentRow, anchor: .center) // ✅ Center next row
+                        currentRow += 1
+                        proxy.scrollTo(currentRow, anchor: .center)
                     }
                 }
             } else {
@@ -145,7 +152,7 @@ struct BussrutaGameView: View {
             }
         }
     }
-
+    
     // ✅ Move to Next Player (Only after win screen)
     private func switchToNextPlayer() {
         showWinScreen = false
@@ -156,7 +163,7 @@ struct BussrutaGameView: View {
         }
         resetGame()
     }
-
+    
     // ✅ Reset Player (When they hit a picture card)
     private func resetPlayer() {
         let newPyramid = BussrutaGameView.generatePyramid(rowSizes: rowSizes)
@@ -165,7 +172,7 @@ struct BussrutaGameView: View {
         currentRow = 0
         shouldResetGame = false
     }
-
+    
     // ✅ Reset Game for the Next Player
     private func resetGame() {
         let newPyramid = BussrutaGameView.generatePyramid(rowSizes: rowSizes)
@@ -174,7 +181,7 @@ struct BussrutaGameView: View {
         currentRow = 0
         shouldResetGame = false
     }
-
+    
     // ✅ Generate Pyramid
     private static func generatePyramid(rowSizes: [Int]) -> [[Card]] {
         let deck = InfiniteDeck()
@@ -182,7 +189,7 @@ struct BussrutaGameView: View {
             (0..<rowSize).map { _ in deck.drawCard() }
         }
     }
-
+    
     // ✅ Get Drink Message
     private func getDrinkMessage(for row: Int) -> String {
         switch row {
@@ -193,6 +200,41 @@ struct BussrutaGameView: View {
         case 4: return "SHOT eller CHUG! 🔥"
         default: return "Drikk!"
         }
+    }
+}
+
+// MARK: - 🎉 Drinking Message View (New)
+struct DrinkingMessageView: View {
+    let message: String
+    let onDismiss: () -> Void
+
+    var body: some View {
+        VStack(spacing: 20) {
+            Text("🎉 Drikk! 🎉")
+                .font(Font.custom("LuckiestGuy-Regular", size: 32))
+                .foregroundStyle(.white)
+                .bold()
+                .multilineTextAlignment(.center)
+
+            Text(message)
+                .font(Font.custom("LuckiestGuy-Regular", size: 32))
+                .foregroundStyle(.white)
+                .multilineTextAlignment(.center)
+
+            Button(action: onDismiss) {
+                Text("Ok!")
+                    .font(Font.custom("LuckiestGuy-Regular", size: 32))
+                    .foregroundStyle(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.green)
+                    .cornerRadius(10)
+            }
+            .padding()
+        }
+        .padding()
+        .background(RoundedRectangle(cornerRadius: 20).fill(Color.red).shadow(radius: 10))
+        
     }
 }
 
@@ -252,7 +294,7 @@ struct CongratulationsView: View {
                 .bold()
                 .multilineTextAlignment(.center)
 
-            Text("🚀 Du har fullført Bussruta! 🚀")
+            Text("🚍 Du har fullført Bussruta! 🚍")
                 .font(Font.custom("LuckiestGuy-Regular", size: 32))
                 .foregroundStyle(.white)
                 .multilineTextAlignment(.center)

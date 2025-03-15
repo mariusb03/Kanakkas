@@ -40,16 +40,16 @@ struct CardBasedPickerTitleCard: View {
     }
 }
 
-// MARK: - QACPackButton
+// MARK: - Game Selection Button
 struct CardBasedGameButton: View {
     let game: CardBasedGame
-    @Binding var selectedPack: CardBasedGame?
+    @Binding var selectedGame: CardBasedGame?
     let animation: Namespace.ID
     
     var body: some View {
         Button(action: {
             withAnimation(.spring()) {
-                selectedPack = game
+                selectedGame = game
             }
         }) {
             ZStack {
@@ -77,7 +77,7 @@ struct CardBasedGameButton: View {
     }
 }
 
-// MARK: - QACPackDetailView (Expanded View)
+// MARK: - Game Detail View
 struct CardBasedGameDetailView: View {
     let cardBasedGame: CardBasedGame
     let animation: Namespace.ID
@@ -100,17 +100,6 @@ struct CardBasedGameDetailView: View {
                         .cornerRadius(20)
                         .shadow(radius: 5)
                         .matchedGeometryEffect(id: cardBasedGame.title, in: animation)
-                    
-                    Text(cardBasedGame.title)
-                        .font(Font.custom("LuckiestGuy-Regular", size: 32))
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .shadow(color: .red, radius: 5)
-                        .padding()
-                        .frame(width: 300, height: 100)
-                        .cornerRadius(20)
-                        .shadow(radius: 5)
-                        .matchedGeometryEffect(id: cardBasedGame.title, in: animation)
                 }
                 
                 Text(cardBasedGame.description)
@@ -118,44 +107,11 @@ struct CardBasedGameDetailView: View {
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     .padding()
-                    .frame(width: 550, height: 150)
+                    .frame(width: 700, height: 150)
                 
-                if cardBasedGame.title == "Vorset          Starter!" {
-                    NavigationLink(destination: VorsetStarterGameView(players: players)) {
-                        GameModeActionButton(title: "Spill")
-                    }
+                NavigationLink(destination: cardBasedGame.view) {
+                    GameModeActionButton(title: "Spill")
                 }
-                
-                if cardBasedGame.title == "Damenes        aften!" {
-                    NavigationLink(destination: DamenesAftenGameView(players: players)) {
-                        GameModeActionButton(title: "Spill")
-                    }
-                }
-                
-                if cardBasedGame.title == "All-In gutta!" {
-                    NavigationLink(destination: AllInGuttaGameView(players: players)) {
-                        GameModeActionButton(title: "Spill")
-                    }
-                }
-                
-                if cardBasedGame.title == "Er det varmt her?" {
-                    NavigationLink(destination: ErDetVarmtHerGameView(players: players)) {
-                        GameModeActionButton(title: "Spill")
-                    }
-                }
-                
-                if cardBasedGame.title == "Nach!" {
-                    NavigationLink(destination: NachGameView(players: players)) {
-                        GameModeActionButton(title: "Spill")
-                    }
-                }
-                
-                if cardBasedGame.title == "Dag 2!" {
-                    NavigationLink(destination: Dag2GameView(players: players)) {
-                        GameModeActionButton(title: "Spill")
-                    }
-                }
-                
                 
                 // "Tilbake" Button
                 Button(action: onClose) {
@@ -171,34 +127,34 @@ struct CardBasedGameDetailView: View {
     }
 }
 
-
 // MARK: - QACPack Model
 struct CardBasedGame: Identifiable {
     let id = UUID()
     let title: String
     let color: Color
     let description: String
+    let view: AnyView
 }
 
 
 // MARK: Free Packs
 let cardBasedFreeGames = [
-    CardBasedGame(title: "Over/under!", color: .red, description: "!"),
+    CardBasedGame(title: "Over/under!", color: .red, description: "Tipp om neste korter er høyere eller lavere enn forrige kort! \n Gjetter hen riktig, Fortsett til neste spiller og legg til en slurk i taperpotten!\n Gjetter hen feil, må hen ta alle slurkene i potten og dere begynner på nytt!", view: AnyView(OverUnderGameView())),
     
-    CardBasedGame(title: "Kongens Kopp!", color: .blue, description: "!"),
+    CardBasedGame(title: "Kongens Kopp!", color: .blue, description: "!", view: AnyView(Text("Kongens Kopp Coming Soon!"))) ,
     
-    CardBasedGame(title: "Vanlig Kortstokk!", color: .pink, description: "!"),
+    CardBasedGame(title: "Vanlig Kortstokk!", color: .pink, description: "Her finner dere på regler selv, bare fantasisen setter grenser!",view: AnyView(DeckOfCardsGameView())) ,
     
 ]
 
 
 // MARK: Paid Packs
 let cardBasedPaidGames = [
-    CardBasedGame(title: "Krig!", color: .gray, description: "!"),
+    CardBasedGame(title: "Krig!", color: .gray, description: "Hver spiller trekker et kort, den med høyeste kortet vinner runden! \n får spillerene samme verdi, blir det krig! Her dobles mengden super for hver krig! \n lykke til!", view: AnyView(KrigGameView(players: ["Player 1", "Player 2"]))),
     
-    CardBasedGame(title: "Buss Turen!", color: .black, description: "!"),
+    CardBasedGame(title: "Buss ruta!", color: .black, description: "Her skal alle gjennom bussruta! \n Trykk på et kort på første rad og beveg deg gradvis oppover!", view: AnyView(BussrutaGameView(players: ["Player 1", "Player 2"]))),
     
-    CardBasedGame(title: "Premium      Pack 3", color: .gold, description: "!")
+    CardBasedGame(title: "Premium      Pack 3", color: .gold, description: "!", view: AnyView(Text("pack Coming Soon!")))
 ]
 
 // 🛠 Preview

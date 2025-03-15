@@ -1,20 +1,13 @@
 //
-//  DeckOfCardsInfoView.swift
+//  BussrutaInfoView.swift
 //  Kanakkas
 //
-//  Created by Marius Bringsvor Rusten on 12/03/2025.
-//
-
-//
-//  OverUnderInfoView.swift
-//  Kanakkas
-//
-//  Created by Marius Bringsvor Rusten on 12/03/2025.
+//  Created by Marius Bringsvor Rusten on 15/03/2025.
 //
 
 import SwiftUI
 
-struct DeckOfCardsInfoView: View {
+struct BussrutaInfoView: View {
     var dismiss: () -> Void // Closure to close the info view
 
     var body: some View {
@@ -28,12 +21,12 @@ struct DeckOfCardsInfoView: View {
             
             // 📜 Info Card
             VStack(spacing: 20) {
-                Text("📜 Vanlig Kortstokk! 📜")
+                Text("📜 Bussruta! 📜")
                     .font(Font.custom("LuckiestGuy-Regular", size: 34))
                     .foregroundColor(.white)
                     .shadow(color: .red, radius: 5)
                 
-                Text("Finn på helt egne regler, ingenting stopper dere!")
+                Text("Her skal alle gjennom bussruta! \n Trykk på et kort på første rad og beveg deg gradvis oppover!")
                     .font(Font.custom("LuckiestGuy-Regular", size: 22))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
@@ -65,8 +58,8 @@ struct DeckOfCardsInfoView: View {
 
 
 // MARK: - Preview
-struct DeckOfCardsInfoView_Previews: PreviewProvider {
+struct BussrutaInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        DeckOfCardsInfoView(dismiss: {})
+        BussrutaInfoView(dismiss: {})
     }
 }

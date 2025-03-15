@@ -58,6 +58,7 @@ struct OverUnderGameView: View {
                                 .scaleEffect(0.6) // Scales the entire card down
                                 .opacity(0.8)
                                 .offset(x: -30) // Adjust position
+                                .frame(height: 170)
                         } else {
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color.white.opacity(0.5))
@@ -101,6 +102,7 @@ struct OverUnderGameView: View {
             TableEdge()
         )
         .animation(.easeInOut(duration: 0.3), value: showInfo) // Animate overlay appearance
+        .navigationBarBackButtonHidden()
     }
 }
 
