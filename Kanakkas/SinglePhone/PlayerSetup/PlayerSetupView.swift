@@ -18,32 +18,29 @@ struct PlayerSetupView: View {
     @State private var offsetY: CGFloat = 300
     
     private let columns = [
-            GridItem(.flexible(), spacing: 20),
-            GridItem(.flexible(), spacing: 20)
-        ]
-
+        GridItem(.flexible(), spacing: 20),
+        GridItem(.flexible(), spacing: 20)
+    ]
+    
+    
+    
     var body: some View {
         ZStack {
-            
             HomeBackground()
-
+            
             VStack {
                 HStack {
                     CustomBackButton()
-                    
                     Spacer()
-                    
                     PlayerSetupTitleCard()
-                    
                     Spacer()
-                    
                     CustomSettingsButton {
                         showSettings.toggle()
                     }
                 }
-
+                
                 // 📋 Player Name Fields in Landscape Mode
-                HStack{
+                HStack {
                     VStack {
                         ScrollView(showsIndicators: false) {
                             LazyVGrid(columns: columns, spacing: 5) {
@@ -60,11 +57,11 @@ struct PlayerSetupView: View {
                             }
                             .padding(.horizontal, 40)
                         }
-                        .frame(height: 180) // Keep it compact
-                        .offset(y: offsetY) // Slide-in effect
+                        .frame(height: 180)
+                        .offset(y: offsetY)
                         .onAppear {
                             withAnimation(.spring(response: 0.8, dampingFraction: 0.7, blendDuration: 0.5).delay(0.2)) {
-                                offsetY = 0 // Moves down into position smoothly
+                                offsetY = 0
                             }
                         }
                         
@@ -86,10 +83,10 @@ struct PlayerSetupView: View {
                                 .shadow(color: .red, radius: 5)
                         }
                         .padding(.top, 10)
-                        .offset(y: offsetY) // Slide-in effect
+                        .offset(y: offsetY)
                         .onAppear {
                             withAnimation(.spring(response: 0.8, dampingFraction: 0.7, blendDuration: 0.5).delay(0.2)) {
-                                offsetY = 0 // Moves down into position smoothly
+                                offsetY = 0
                             }
                         }
                     }
@@ -102,12 +99,20 @@ struct PlayerSetupView: View {
                 }
             }
         }
-        .overlay (
-            TableEdge()
-        )
+        .overlay(TableEdge())
         .sheet(isPresented: $showSettings) {
-                    SettingsView() // Open settings menu
-                }
+            SettingsView()
+        }
+        .onTapGesture {
+            UIApplication.shared.hideKeyboard()
+        }
+    }
+}
+
+
+extension UIApplication {
+    func hideKeyboard() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 

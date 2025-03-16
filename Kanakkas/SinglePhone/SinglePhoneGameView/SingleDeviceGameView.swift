@@ -189,7 +189,7 @@ struct GameModeDetailView: View {
             }
             
             if gameMode.title == "Ferdighets Basert!" {
-                NavigationLink(destination: QACPickerView(players: players)) {
+                NavigationLink(destination: SkillBasedGameView(players: players)) {
                     GameModeActionButton(title: "Spill!")
                 }
             }
