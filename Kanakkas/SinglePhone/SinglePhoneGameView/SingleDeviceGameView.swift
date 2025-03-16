@@ -56,7 +56,7 @@ struct SingleDeviceGameView: View {
                             Spacer()
                             GameModeButton(title: "Kortstokk Basert!", color: .green, description: "Diverse utvalg kortspill for de som mangler kortstokk!\n    (Evig kortstokk for alle spill)", selectedMode: $selectedMode, animation: animation)
                             Spacer()
-                            GameModeButton(title: "Ferdighets Basert!", color: .orange, description: "Test ferdighetene dine i ulike utfordringer!", selectedMode: $selectedMode, animation: animation)
+                            GameModeButton(title: "Ferdighets Basert!", color: .orange, description: "Test gjengens ferdigheter i diverse spill!", selectedMode: $selectedMode, animation: animation)
                             Spacer()
                         }
                     }
@@ -160,6 +160,8 @@ struct GameModeDetailView: View {
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
                 .padding()
+                .shadow(color: .red, radius: 5)
+                .shadow(color: .red, radius: 5)
                 .offset(y: offsetY)
                 .onAppear {
                     withAnimation(.spring(response: 0.8, dampingFraction: 0.7, blendDuration: 0.5).delay(0.2)) {

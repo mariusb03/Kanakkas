@@ -9,12 +9,21 @@
 import SwiftUI
 
 // MARK: - Vorset Starter Card Model
-struct VorsetStarterCard: Identifiable {
+struct VorsetStarterCard: Identifiable, Hashable {
     let id = UUID()
     let title: String
     let description: String
     let category: String
     let needsPlayer: Bool
+    
+    // ✅ Implement Hashable conformance
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
+    static func == (lhs: VorsetStarterCard, rhs: VorsetStarterCard) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
 
 // MARK: - Category Colors

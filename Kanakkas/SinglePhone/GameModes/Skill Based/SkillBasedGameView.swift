@@ -1,38 +1,37 @@
 //
-//  AllInGuttaGameView.swift
+//  SkillBasedGameView.swift
 //  Kanakkas
 //
-//  Created by Marius Bringsvor Rusten on 07/03/2025.
+//  Created by Marius Bringsvor Rusten on 16/03/2025.
 //
 
 import SwiftUI
 
-struct AllInGuttaGameView: View {
-    @State private var availableCards: [AllInGuttaCard] // Remaining cards to draw
-    @State private var usedCards: [AllInGuttaCard] = [] // Cards shown so far
-    @State private var currentIndex = -1 // Index in usedCards
-    let players: [String] // List of player names
-
+struct SkillBasedGameView: View {
+    @State private var availableCards: [SkillBasedCard] // Remaining cards
+    @State private var usedCards: [SkillBasedCard] = [] // Keeps track of drawn cards in order
+    @State private var currentIndex = -1 // Tracks position in `usedCards`
+    let players: [String] // Player list
+    
     // Special "Game Finished" card
-    private let finishedCard = AllInGuttaCard(
+    private let finishedCard = SkillBasedCard(
         title: "Spillet er Ferdig!",
-        description: "Dere har gått gjennom alle kortene! 🎉\nStart på nytt eller prøv et annet spill!",
+        description: "Dere har spilt gjennom alle spillene 🎉\n Dette var et utvalg av noen drikkeleker! \n Finn gjene på deres egne!",
         category: "ingen tittel",
         needsPlayer: false
     )
 
     init(players: [String]) {
         self.players = players
-        _availableCards = State(initialValue: allInGuttaCards.shuffled()) // Shuffle cards
+        _availableCards = State(initialValue: skillBasedCards.shuffled())
     }
 
     var body: some View {
         ZStack {
-            // ✅ Set default red background before first card is drawn
-            (allInGuttaCategoryColors[getCurrentCard()?.category ?? ""] ?? Color.red)
+            // Set background color dynamically
+            (skillBasedCategoryColors[getCurrentCard()?.category ?? ""] ?? Color.red)
                 .edgesIgnoringSafeArea(.all)
-
-            // ✅ Enable Left (Back) & Right (Next) Tap
+            
             HStack {
                 Color.clear
                     .contentShape(Rectangle())
@@ -45,54 +44,59 @@ struct AllInGuttaGameView: View {
 
             VStack {
                 HStack {
-                    QACBackButton() // Back button
+                    QACBackButton()
+                        .onTapGesture { goToPreviousCard() } // Back Button
                     Spacer()
-                    AllInGuttaTitleCard()
+                    SkillBasedTitleCard()
                     Spacer()
                     QACInfoButton { print("Info opened") }
                 }
                 .padding(.top, 20)
-
+                
                 Spacer()
-
-                // ✅ Show current challenge card
+                
+                // Display current challenge card
                 VStack {
                     Text(getCurrentCard()?.title ?? "Gjør dere klare!")
                         .font(.title)
                         .bold()
                         .foregroundColor(.white)
-
-                    Text(generateCardDescription(for: getCurrentCard()))
-                        .font(.body)
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .padding()
+                    
+                    ScrollView {
+                        Text(generateCardDescription(for: getCurrentCard()))
+                            .font(.body)
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                            .padding()
+                           
+                    }
                 }
                 .padding()
                 .cornerRadius(15)
                 .shadow(radius: 5)
-
+                
                 Spacer()
             }
         }
         .overlay(TableEdge())
         .navigationBarBackButtonHidden(true)
+        .onTapGesture { goToNextCard() } // Go forward when tapped
     }
-
-    // ✅ Generate challenge text, replacing {player} with a random name
-    private func generateCardDescription(for card: AllInGuttaCard?) -> String {
-        guard let card = card else { return "Gjør dere klare for utfordringer!" }
+    
+    // Generate challenge text, replacing {player} with a random name
+    private func generateCardDescription(for card: SkillBasedCard?) -> String {
+        guard let card = card else { return "Test ferdighete deres!" }
         if card.needsPlayer, let randomPlayer = players.randomElement() {
             return card.description.replacingOccurrences(of: "{player}", with: randomPlayer)
         } else {
             return card.description
         }
     }
-
+    
     // ✅ Show a new random card or "Game Finished" if no cards left
     private func goToNextCard() {
         if currentIndex < usedCards.count - 1 {
-            // Move forward in history
+            // Move forward in the existing history
             currentIndex += 1
         } else if !availableCards.isEmpty {
             // Draw a new random card
@@ -105,7 +109,7 @@ struct AllInGuttaGameView: View {
             currentIndex += 1
         }
     }
-
+    
     // ✅ Go back to the previous card
     private func goToPreviousCard() {
         if currentIndex > 0 {
@@ -114,7 +118,7 @@ struct AllInGuttaGameView: View {
     }
 
     // ✅ Get the current card based on `currentIndex`
-    private func getCurrentCard() -> AllInGuttaCard? {
+    private func getCurrentCard() -> SkillBasedCard? {
         if currentIndex >= 0 && currentIndex < usedCards.count {
             return usedCards[currentIndex]
         }
@@ -123,10 +127,10 @@ struct AllInGuttaGameView: View {
 }
 
 // MARK: - Preview
-struct AllInGuttaGameView_Previews: PreviewProvider {
+struct SkillBasedGameView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            AllInGuttaGameView(players: ["Emma", "Oliver", "Noah", "Sofie"])
+            SkillBasedGameView(players: ["Emma", "Oliver", "Noah", "Sofie"])
         }
     }
 }
