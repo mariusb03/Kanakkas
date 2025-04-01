@@ -1,5 +1,5 @@
 //
-//  VorsetStarterGameView.swift
+//  HundreSpørsmålGameView.swift
 //  Kanakkas
 //
 //  Created by Marius Bringsvor Rusten on 07/03/2025.
@@ -7,40 +7,33 @@
 
 import SwiftUI
 
-struct NachGameView: View {
-    @State private var availableCards: [NachCard] // Remaining cards to draw
-    @State private var usedCards: [NachCard] = [] // Cards shown so far
-    @State private var currentIndex = -1 // Index in usedCards
-    let players: [String] // Player list
+struct HundreSpørsmålGameView: View {
+    @State private var availableCards: [HundreSpørsmålCard] = hundreSpørsmålCards // ✅ Predefined order, no shuffle
+    @State private var currentIndex = -1 // Index in `availableCards`
+    let players: [String]
     @State private var showInfo = false
-    
-    // Special "Game Finished" card
-    private let finishedCard = NachCard(
+
+    private let finishedCard = HundreSpørsmålCard(
         title: "Spillet er Ferdig!",
-        description: "Dere har gått gjennom alle kortene! 🎉\nStart på nytt eller prøv et annet spill!",
+        description: "Dere har gått gjennom alle 100 spørsmålene! 🎉\nStart på nytt eller prøv et annet spill!",
         category: "ingen tittel",
         needsPlayer: false
     )
 
     init(players: [String]) {
         self.players = players
-        _availableCards = State(initialValue: nachCards.shuffled()) // Randomize cards
     }
 
     var body: some View {
         ZStack {
-            // Background color dynamically based on current card category
-            (vorsetStarterCategoryColors[getCurrentCard()?.category ?? ""] ?? Color.red)
+            (hundreSpørsmålCategoryColors[getCurrentCard()?.category ?? ""] ?? Color.red)
                 .edgesIgnoringSafeArea(.all)
 
-            // Detect screen taps (Left → Back, Right → Next)
             HStack {
-                // Left side tap - Go back
                 Color.clear
                     .contentShape(Rectangle())
                     .onTapGesture { goToPreviousCard() }
 
-                // Right side tap - Go forward
                 Color.clear
                     .contentShape(Rectangle())
                     .onTapGesture { goToNextCard() }
@@ -48,24 +41,24 @@ struct NachGameView: View {
 
             VStack {
                 HStack {
-                    QACBackButton() // Back button
+                    QACBackButton()
                     Spacer()
-                    NachTitleCard()
+                    HundreSpørsmålTitleCard()
                     Spacer()
-                    QACInfoButton { showInfo = true }
+                    QACInfoButton {
+                        showInfo = true }
                 }
                 .padding(.top, 20)
-                
+
                 Spacer()
-                
-                // Show current challenge card
+
                 VStack {
-                    Text(getCurrentCard()?.title ?? "Pakken er ikke klar enda!")
+                    Text(getCurrentCard()?.title ?? "Finn frem snusboksen!")
                         .font(Font.custom("LuckiestGuy-Regular", size: 32))
                         .foregroundColor(.white)
-                    
+
                     Text(generateCardDescription(for: getCurrentCard()))
-                        .font(Font.custom("LuckiestGuy-Regular", size: 20))
+                        .font(Font.custom("LuckiestGuy-Regular", size: 30))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
                         .padding()
@@ -73,11 +66,11 @@ struct NachGameView: View {
                 .padding()
                 .cornerRadius(15)
                 .shadow(radius: 5)
-                
+
                 Spacer()
             }
             if showInfo {
-                NachInfoView {
+                HundreSpørsmålInfoView {
                     showInfo = false // Dismiss overlay
                 }
                 .transition(.opacity) // Smooth fade-in effect
@@ -86,35 +79,27 @@ struct NachGameView: View {
         .overlay(TableEdge())
         .navigationBarBackButtonHidden(true)
     }
-    
+
     // ✅ Generate challenge text, replacing {player} with a random name
-    private func generateCardDescription(for card: NachCard?) -> String {
-        guard let card = card else { return "Kommer snart!" }
+    private func generateCardDescription(for card: HundreSpørsmålCard?) -> String {
+        guard let card = card else { return "100 spørsmål serveres nå!" }
         if card.needsPlayer, let randomPlayer = players.randomElement() {
             return card.description.replacingOccurrences(of: "{player}", with: randomPlayer)
         } else {
             return card.description
         }
     }
-    
-    // ✅ Show a new random card or "Game Finished" if no cards left
+
+    // ✅ Move forward through the list of 100 questions
     private func goToNextCard() {
-        if currentIndex < usedCards.count - 1 {
-            // Move forward in history
-            currentIndex += 1
-        } else if !availableCards.isEmpty {
-            // Draw a new random card
-            let newCard = availableCards.removeFirst()
-            usedCards.append(newCard)
+        if currentIndex < availableCards.count - 1 {
             currentIndex += 1
         } else {
-            // Show the "Game Finished" card if all cards are used
-            usedCards.append(finishedCard)
             currentIndex += 1
         }
     }
-    
-    // ✅ Go back to the previous card
+
+    // ✅ Move backward through the list
     private func goToPreviousCard() {
         if currentIndex > 0 {
             currentIndex -= 1
@@ -122,19 +107,21 @@ struct NachGameView: View {
     }
 
     // ✅ Get the current card based on `currentIndex`
-    private func getCurrentCard() -> NachCard? {
-        if currentIndex >= 0 && currentIndex < usedCards.count {
-            return usedCards[currentIndex]
+    private func getCurrentCard() -> HundreSpørsmålCard? {
+        if currentIndex >= 0 && currentIndex < availableCards.count {
+            return availableCards[currentIndex]
+        } else if currentIndex >= availableCards.count {
+            return finishedCard // Show the "Game Finished" card after the 100th question
         }
         return nil
     }
 }
 
 // MARK: - Preview
-struct NachGameView_Previews: PreviewProvider {
+struct HundreSpørsmålGameView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            NachGameView(players: ["Emma", "Oliver", "Noah", "Sofie"])
+            HundreSpørsmålGameView(players: ["Emma", "Oliver", "Noah", "Sofie"])
         }
     }
 }

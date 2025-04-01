@@ -26,6 +26,11 @@ struct HomeButton: View {
                 .cornerRadius(15)
                 .shadow(radius: 5)
                 .padding(2)
+                .offset(y: offsetY) // Slide-in animation
+                .animation(.easeOut(duration: 1.0).delay(0.5), value: offsetY)
+                .onAppear {
+                    offsetY = 0 // Moves up into position
+                }
         }
         .scaleEffect(isTapped ? 1.2 : 1.0) // Bounce effect
                 .offset(y: offsetY) // Slide-in animation
@@ -47,14 +52,14 @@ struct SinglePhoneButton: View {
     @State private var offsetY: CGFloat = 200
     
     var body: some View {
-        Text("En telefon")
-            .font(Font.custom("LuckiestGuy-Regular", size: 20))
+        Text("Spill!")
+            .font(Font.custom("LuckiestGuy-Regular", size: 35))
             .foregroundColor(.white)
             .shadow(radius: 5)
             .padding()
             .frame(width: 200, height: 60)
             .background(Color.red)
-            .cornerRadius(30)
+            .cornerRadius(15)
             .shadow(color: .red, radius: 5)
             .offset(y: offsetY) // Slide-in animation
             .animation(.easeOut(duration: 1.0).delay(0.5), value: offsetY)
@@ -135,12 +140,12 @@ struct UnderTitleCard: View {
     
     var body: some View {
         ZStack {
-            Text("Når det skal gå litt for langt!")
+            Text("Laget for Norges kjære alkiser!")
                 .font(Font.custom("LuckiestGuy-Regular", size: 31))
                 .foregroundColor(.red)
                 .shadow(color: .red, radius: 10)
             
-            Text("Når det skal gå litt for langt!")
+            Text("Laget for Norges kjære alkiser!")
                 .font(Font.custom("LuckiestGuy-Regular", size: 30))
                 .foregroundColor(.white)
                 .shadow(color: .red, radius: 10)

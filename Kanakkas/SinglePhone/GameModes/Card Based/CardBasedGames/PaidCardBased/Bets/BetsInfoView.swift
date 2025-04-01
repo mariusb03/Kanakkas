@@ -26,7 +26,7 @@ struct BetsInfoView: View {
                     .foregroundColor(.white)
                     .shadow(color: .red, radius: 5)
                 
-                Text("2 tilfeldige spillere velget ut! \n Hver spiller velger hvor mage super de vil vedde! \n spillet trekker deretter 2 tilfeldige kort! \n laveste kortet taper og må drikke det hen veddet! \n deretter må hen fortsette til hen vinner! \n vinneren får dele ut det hen veddet til noen andre i rommet! ")
+                Text("2 tilfeldige spillere blir valgt! \n Hver spiller velger hvor mange slurker de vil vedde! \n spillet trekker deretter 2 tilfeldige kort! \n laveste kortet taper og må drikke det hen veddet! \n deretter må hen fortsette til hen vinner! \n vinneren får dele ut det hen veddet til noen andre i rommet!")
                     .font(Font.custom("LuckiestGuy-Regular", size: 20))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
@@ -46,7 +46,7 @@ struct BetsInfoView: View {
                 }
             }
             .padding()
-            .frame(width: 550)
+            .frame(width: 600)
             .background(Color.red.opacity(0.8))
             .cornerRadius(20)
             .shadow(radius: 10)

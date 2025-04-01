@@ -104,11 +104,16 @@ struct QACPickerView: View {
                     }
                 }
             }
+            if showSettings {
+                SettingsView {
+                    showSettings = false
+                }
+                .transition(.opacity)
+                
+            }
         }
         .overlay(TableEdge())
-        .sheet(isPresented: $showSettings) {
-            SettingsView()
-        }
+        
         .navigationBarBackButtonHidden(true)
     }
 }

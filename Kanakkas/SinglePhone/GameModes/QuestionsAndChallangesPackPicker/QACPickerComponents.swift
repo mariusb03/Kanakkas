@@ -150,6 +150,13 @@ struct QACPackDetailView: View {
                     }
                 }
                 
+                if qacPack.title == "100 \n Spørsmål!" {
+                    NavigationLink(destination: HundreSpørsmålGameView(players: players)) {
+                        GameModeActionButton(title: "Spill")
+                    }
+                }
+                
+                
                 if qacPack.title == "Dag 2!" {
                     NavigationLink(destination: Dag2GameView(players: players)) {
                         GameModeActionButton(title: "Spill")
@@ -193,13 +200,13 @@ let QACFreePacks = [
     
     QACPack(title: "Nach!", color: .purple, description: "Herlighet, fortsatt ikke klare for å legge ned flaska? Jaja, ta det som en nedtrapping da! La alkoholen renne og gjør dere klare for å dele livshistorier!"),
     
-    QACPack(title: "Dag 2!", color: .yellow, description: "For dere som ikke syntes 1 dag var nok, så begynner dag 2 her! Start rolig og kjør opp mer enn i går!")
+    QACPack(title: "100 \n Spørsmål!", color: .yellow, description: "En klassiker! Få festen igang med 100 spørsmål!")
 ]
 
 
 // MARK: Paid Packs
 let QACPaidPacks = [
-    QACPack(title: "Premium      Pack 1", color: .gray, description: "Lås opp eksklusive drikkeleker!"),
+    QACPack(title: "Dag 2", color: .gray, description: "For dere som ikke syntes 1 dag var nok, så begynner dag 2 her! Start rolig og kjør opp mer enn i går!"),
     QACPack(title: "Premium      Pack 2", color: .black, description: "Mest ekstreme utfordringer!"),
     QACPack(title: "Premium      Pack 3", color: .gold, description: "VIP-pakken for hardcore festere!")
 ]

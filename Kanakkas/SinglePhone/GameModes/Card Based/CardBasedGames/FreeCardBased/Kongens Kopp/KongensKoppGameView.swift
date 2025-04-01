@@ -30,32 +30,41 @@ struct KongensKoppGameView: View {
                 HStack {
                     
                     CustomBackButton()
-                        .padding(.top, 20)
+                        
                     Spacer()
                     
-                    ZStack {
-                        Text("Kongens Kopp!")
-                            .font(Font.custom("LuckiestGuy-Regular", size: 42))
-                            .foregroundColor(.red)
-                            .bold()
-                            .shadow(color: .red, radius: 5)
-                        
-                        Text("Kongens Kopp!")
-                            .font(Font.custom("LuckiestGuy-Regular", size: 40))
+                    VStack {
+                        ZStack {
+                            Text("Kongens Kopp!")
+                                .font(Font.custom("LuckiestGuy-Regular", size: 42))
+                                .foregroundColor(.red)
+                                .bold()
+                                .shadow(color: .red, radius: 5)
+                            
+                            Text("Kongens Kopp!")
+                                .font(Font.custom("LuckiestGuy-Regular", size: 40))
+                                .foregroundColor(.white)
+                                .bold()
+                                .shadow(color: .red, radius: 5)
+                            
+                        }
+                        Text("Antall konger trukket: \(kingCount)")
+                            .font(Font.custom("LuckiestGuy-Regular", size: 24))
                             .foregroundColor(.white)
-                            .bold()
+                            .shadow(color: .red, radius: 5)
                             .shadow(color: .red, radius: 5)
                         
                     }
-                    .padding(.top, 20)
+                    
                     
                     Spacer()
                     
                     KongensKoppInfoButton {
                         showInfo = true
                     }
-                    .padding(.top, 20)
+                    
                 }
+                .padding(.vertical, 20)
                 
                 Spacer()
                 
@@ -77,6 +86,7 @@ struct KongensKoppGameView: View {
                     showInfo = false
                 }
                 .transition(.opacity)
+                
             }
             
             // 🍺 Rule Pop-up
@@ -118,18 +128,18 @@ struct KongensKoppGameView: View {
         print("🔎 Checking rule for rank: '\(rank)'")
 
         switch rank {
-        case "A": return "Ess – FOSS! Alle begynner å drikke, personen til høyre må fortsette til venstre stopper!"
-        case "2": return "2 – Velg noen til å drikke."
-        case "3": return "3 – Personen som trakk kortet drikker."
-        case "4": return "4 – Alle må ta på gulvet, den siste personen drikker."
-        case "5": return "5 – Alle gutta drikker."
-        case "6": return "6 – Alle jentene drikker."
-        case "7": return "7 – Alle peker opp mot himmelen, den siste personen drikker."
-        case "8": return "8 – Velg en 'mate'. Når du drikker, må de også drikke."
-        case "9": return "9 – RIM! Velg et ord, og alle må si et som rimer. Den som feiler, drikker."
-        case "10": return "10 – KATEGORIER! Velg en kategori, alle må si noe som passer. Feiler du, drikk!"
-        case "J", "JACK": return "JACK – LAG EN REGEL! Alle må følge regelen gjennom spillet."
-        case "Q", "QUEEN": return "Dronning – SPØRSMÅL! Still et spørsmål, de må svare med et nytt spørsmål. Feiler du, drikk!"
+        case "A": return "Ess – FOSS! \n Alle begynner å drikke, personen til høyre må fortsette til venstre stopper!"
+        case "2": return "2 \n Velg noen til å drikke!"
+        case "3": return "3 \n Personen som trakk kortet drikker!"
+        case "4": return "4 \n Alle må ta på gulvet, den siste personen drikker!"
+        case "5": return "5 - GUTTA! \n Alle gutta drikker!"
+        case "6": return "6 - gurls! \n Alle jentene drikker!"
+        case "7": return "7 - gris! \n Putt tommelen på Bordet, den siste personen drikker!"
+        case "8": return "8 - Mate! \n Velg en 'mate'. Når du drikker, må de også drikke!"
+        case "9": return "9 – RIM! \n Velg et ord, og alle må si et som rimer. Den som feiler, drikker!"
+        case "10": return "10 – KATEGORI! \n Velg en kategori, alle må si noe som passer. Feiler du, drikk!"
+        case "J", "JACK": return "Knekt - Regel! \n LAG EN REGEL! Alle må følge regelen ut spillet!"
+        case "Q", "QUEEN": return "Dronning! \n SPØRSMÅL! Still et spørsmål, de må svare med et nytt spørsmål. Feiler du, drikk!"
         case "K", "KING":
             kingCount += 1
             if kingCount == 4 {
@@ -151,8 +161,9 @@ struct RulePopupView: View {
     var body: some View {
         VStack {
             Text(message)
-                .font(Font.custom("LuckiestGuy-Regular", size: 22))
-                .foregroundColor(.yellow)
+                .font(Font.custom("LuckiestGuy-Regular", size: 32))
+                .foregroundColor(.white)
+                .multilineTextAlignment(.center)
                 .padding()
                 .background(Color.red.opacity(0.8))
                 .cornerRadius(15)

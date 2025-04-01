@@ -1,14 +1,14 @@
 //
-//  CardBasedPickerComponents.swift
+//  KanakkasModePickerComponents.swift
 //  Kanakkas
 //
-//  Created by Marius Bringsvor Rusten on 11/03/2025.
+//  Created by Marius Bringsvor Rusten on 23/03/2025.
 //
 
 import SwiftUI
 
 // MARK: Title Card
-struct CardBasedPickerTitleCard: View {
+struct KanakkasModePickerTitleCard: View {
     @State private var isTapped = false
     @State private var offsetY: CGFloat = -300
     
@@ -41,9 +41,9 @@ struct CardBasedPickerTitleCard: View {
 }
 
 // MARK: - Game Selection Button
-struct CardBasedGameButton: View {
-    let game: CardBasedGame
-    @Binding var selectedGame: CardBasedGame?
+struct KanakkasModeGameButton: View {
+    let game: KanakkasModeGame
+    @Binding var selectedGame: KanakkasModeGame?
     let animation: Namespace.ID
     
     var body: some View {
@@ -77,8 +77,8 @@ struct CardBasedGameButton: View {
     }
 }
 
-struct CardBasedGameDetailView: View {
-    let cardBasedGame: CardBasedGame
+struct KanakkasModeGameDetailView: View {
+    let kanakkasModeGame: KanakkasModeGame
     let animation: Namespace.ID
     let onClose: () -> Void
     let players: [String]
@@ -89,40 +89,28 @@ struct CardBasedGameDetailView: View {
                 Spacer()
                 
                 ZStack {
-                    Text(cardBasedGame.title)
-                        .font(Font.custom("LuckiestGuy-Regular", size: 52))
-                        .foregroundColor(.red)
-                        .shadow(color: .red, radius: 5)
-                        .multilineTextAlignment(.center)
-                        
-                        .frame(width: 500, height: 70)
-                        .cornerRadius(20)
-                        .shadow(radius: 5)
-                        .matchedGeometryEffect(id: cardBasedGame.title, in: animation)
-                    
-                    Text(cardBasedGame.title)
-                        .font(Font.custom("LuckiestGuy-Regular", size: 50))
+                    Text(kanakkasModeGame.title)
+                        .font(Font.custom("LuckiestGuy-Regular", size: 32))
                         .foregroundColor(.white)
                         .shadow(color: .red, radius: 5)
                         .multilineTextAlignment(.center)
                         
-                        .frame(width: 500, height: 70)
+                        .frame(width: 300, height: 50)
                         .cornerRadius(20)
                         .shadow(radius: 5)
-                        .matchedGeometryEffect(id: cardBasedGame.title, in: animation)
+                        .matchedGeometryEffect(id: kanakkasModeGame.title, in: animation)
                 }
                 
-                
-                Text(cardBasedGame.description)
+                Text(kanakkasModeGame.description)
                     .font(Font.custom("LuckiestGuy-Regular", size: 20))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
                     
                     .shadow(color: .red, radius: 5)
                     .shadow(color: .red, radius: 5)
-                    .frame(width: 700, height: 150)
+                    .frame(width: 700, height: 200)
                 
-                NavigationLink(destination: cardBasedGame.getView(players: players)) {
+                NavigationLink(destination: kanakkasModeGame.getView(players: players)) {
                     GameModeActionButton(title: "Spill")
                 }
                 
@@ -141,7 +129,7 @@ struct CardBasedGameDetailView: View {
 }
 
 // MARK: - QACPack Model
-struct CardBasedGame: Identifiable {
+struct KanakkasModeGame: Identifiable {
     let id = UUID()
     let title: String
     let color: Color
@@ -155,62 +143,39 @@ struct CardBasedGame: Identifiable {
 
 
 // MARK: Free Packs
-let cardBasedFreeGames = [
-    CardBasedGame(
-        title: "Over/under!",
+let kanakkasModeFreeGames = [
+    KanakkasModeGame(
+        title: "Delvis \n kanakkas!",
         color: .red,
-        description: "Tipp om neste korter er høyere eller lavere enn forrige kort! \n Gjetter hen riktig, Fortsett til neste spiller og legg til en slurk i taperpotten!\n Gjetter hen feil, må hen ta alle slurkene i potten og dere begynner på nytt!",
-        viewProvider: { players in AnyView(OverUnderGameView())
+        description: "Lett blanding \n Gjør allikevel klar do, pose og grøft, for her skal dere kjøres hardt!",
+        viewProvider: { players in AnyView(KanakkasLevelOne(players: players))
             }
-    ),
-    
-    CardBasedGame(
-        title: "Ring Of Fire!",
-        color: .blue,
-        description: "Trekk et kort og gjør det kortet sier! \n Telefonen går deretter videre til venstre! \n Hold på så lenge der vill!",
-        viewProvider: { players in AnyView(KongensKoppGameView()) }
-    ),
-    
-    CardBasedGame(
-        title: "Vanlig Kortstokk!",
-        color: .pink,
-        description: "Her finner dere på regler selv, bare fantasisen setter grenser!",
-        viewProvider: { players in AnyView(DeckOfCardsGameView())
-        }
-    ),
-    
+    )
 ]
 
 
 // MARK: Paid Packs
-let cardBasedPaidGames = [
-    CardBasedGame(
-        title: "Krig!",
+let kanakkasModePaidGames = [
+    KanakkasModeGame(
+        title: "Mildt sagt \n kanakkas!",
         color: .gray,
-        description: "Hver spiller trekker et kort, den med høyeste kortet vinner runden! \n Får spillerene samme verdi, blir det krig! Her dobles mengden slurker for hver krig! \n Lykke til!",
+        description: "Klarer alle veiene til do og fest posene rundt halsen! \n Her skal dere bli parallelle med bakken!",
         viewProvider: { players in AnyView(KrigGameView(players: players)) }
     ),
     
-    CardBasedGame(
-        title: "Buss ruta!",
+    KanakkasModeGame(
+        title: "Helt \n kanakkas!",
         color: .black,
-        description: "Her skal alle gjennom bussruta! \n Trykk på et kort på første rad og beveg deg gradvis oppover!",
+        description: "Ha ambulansen klar på speed dial! \n Her skal alkolen renne som nilen! \n Den mest brutale pakken Kanakkas har å by på! 😈 \n NB! pumping kan medfølge!",
         viewProvider: { players in AnyView(BussrutaGameView(players: players)) }
-    ),
-    
-    CardBasedGame(
-        title: "Bets!",
-        color: .gold,
-        description: "2 tilfeldige spillere blir valgt! \n Hver spiller velger hvor mange slurker de vil vedde! \n spillet trekker deretter 2 tilfeldige kort! \n laveste kortet taper og må drikke det hen veddet! \n deretter må hen fortsette til hen vinner! \n vinneren får dele ut det hen veddet til noen andre i rommet!",
-        viewProvider: { players in AnyView(BetsGameView(players: players)) }
     )
 ]
 
 // 🛠 Preview
-struct CardBasedPickerComponents_Previews: PreviewProvider {
+struct KanakkasModePickerComponents_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            CardBasedPickerView(players: ["Hurb", "Bruh"])
+           KanakkasModePickerView(players: ["Hurb", "Bruh"])
         }
          
     }

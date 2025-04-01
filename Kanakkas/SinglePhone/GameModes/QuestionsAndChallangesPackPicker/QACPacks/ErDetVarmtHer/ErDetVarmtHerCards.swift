@@ -71,6 +71,9 @@ let erDetVarmtHerCards: [ErDetVarmtHerCard] = [
     // MARK: Er du stressa? (orange)
     ErDetVarmtHerCard(title: "Er du stressa?", description: "", category: "er du stressa", needsPlayer: false),
     
+    // MARK: Stipp!
+    ErDetVarmtHerCard(title: "Stripp!", description: "", category: "stripp", needsPlayer: true),
+    
     
     // MARK: hemmelig spørsmål (pink)
     ErDetVarmtHerCard(title: "Hemmelig spørsmål", description: "", category: "hemmelig spørsmål", needsPlayer: false),

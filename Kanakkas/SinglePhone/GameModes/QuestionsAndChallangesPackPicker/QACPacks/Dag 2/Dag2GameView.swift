@@ -12,6 +12,7 @@ struct Dag2GameView: View {
     @State private var usedCards: [Dag2Card] = [] // Cards shown so far
     @State private var currentIndex = -1 // Index in usedCards
     let players: [String] // List of player names
+    @State private var showInfo = false
 
     // Special "Game Finished" card
     private let finishedCard = Dag2Card(
@@ -29,7 +30,7 @@ struct Dag2GameView: View {
     var body: some View {
         ZStack {
             // ✅ Set default red background before first card is drawn
-            (damenesAftenCategoryColors[getCurrentCard()?.category ?? ""] ?? Color.red)
+            (dag2CategoryColors[getCurrentCard()?.category ?? ""] ?? Color.red)
                 .edgesIgnoringSafeArea(.all)
 
             // ✅ Enable Left (Back) & Right (Next) Tap
@@ -49,7 +50,9 @@ struct Dag2GameView: View {
                     Spacer()
                     Dag2TitleCard()
                     Spacer()
-                    QACInfoButton { print("Info opened") }
+                    QACInfoButton {
+                        showInfo = true
+                    }
                 }
                 .padding(.top, 20)
 
@@ -57,13 +60,12 @@ struct Dag2GameView: View {
 
                 // ✅ Show current challenge card
                 VStack {
-                    Text(getCurrentCard()?.title ?? "Gjør dere klare!")
-                        .font(.title)
-                        .bold()
+                    Text(getCurrentCard()?.title ?? "Pakken er ikke klar enda!")
+                        .font(Font.custom("LuckiestGuy-Regular", size: 32))
                         .foregroundColor(.white)
 
                     Text(generateCardDescription(for: getCurrentCard()))
-                        .font(.body)
+                        .font(Font.custom("LuckiestGuy-Regular", size: 20))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
                         .padding()
@@ -74,6 +76,12 @@ struct Dag2GameView: View {
 
                 Spacer()
             }
+            if showInfo {
+                Dag2InfoView {
+                    showInfo = false // Dismiss overlay
+                }
+                .transition(.opacity) // Smooth fade-in effect
+            }
         }
         .overlay(TableEdge())
         .navigationBarBackButtonHidden(true)
@@ -81,7 +89,7 @@ struct Dag2GameView: View {
 
     // ✅ Generate challenge text, replacing {player} with a random name
     private func generateCardDescription(for card: Dag2Card?) -> String {
-        guard let card = card else { return "Gjør dere klare for utfordringer!" }
+        guard let card = card else { return "Kommer snart!" }
         if card.needsPlayer, let randomPlayer = players.randomElement() {
             return card.description.replacingOccurrences(of: "{player}", with: randomPlayer)
         } else {

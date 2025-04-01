@@ -98,11 +98,16 @@ struct PlayerSetupView: View {
                     .navigationBarBackButtonHidden(true)
                 }
             }
+            if showSettings {
+                SettingsView {
+                    showSettings = false
+                }
+                .transition(.opacity)
+                
+            }
         }
         .overlay(TableEdge())
-        .sheet(isPresented: $showSettings) {
-            SettingsView()
-        }
+        
         .onTapGesture {
             UIApplication.shared.hideKeyboard()
         }

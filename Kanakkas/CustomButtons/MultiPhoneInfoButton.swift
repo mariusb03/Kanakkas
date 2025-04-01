@@ -1,13 +1,13 @@
 //
-//  CustomInfoButton.swift
+//  MultiPhoneInfoButton.swift
 //  Kanakkas
 //
-//  Created by Marius Bringsvor Rusten on 07/03/2025.
+//  Created by Marius Bringsvor Rusten on 16/03/2025.
 //
 
 import SwiftUI
 
-struct QACInfoButton: View {
+struct MultiPhoneInfoButton: View {
     @State private var offsetY: CGFloat = -150
     
     var action: () -> Void
@@ -21,6 +21,7 @@ struct QACInfoButton: View {
                     .foregroundColor(.white)
                     .padding()
                     .cornerRadius(15)
+                    .shadow(color: .red, radius: 5)
                     .offset(y: offsetY) // Slide-in effect
                     .onAppear {
                         withAnimation(.spring(response: 0.8, dampingFraction: 0.7, blendDuration: 0.5).delay(0.2)) {

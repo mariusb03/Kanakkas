@@ -43,6 +43,7 @@ struct SkillBasedGameView: View {
             }
 
             VStack {
+                
                 HStack {
                     QACBackButton()
                         .onTapGesture { goToPreviousCard() } // Back Button
@@ -57,25 +58,27 @@ struct SkillBasedGameView: View {
                 
                 // Display current challenge card
                 VStack {
+                    
                     Text(getCurrentCard()?.title ?? "Gjør dere klare!")
-                        .font(.title)
+                        .font(Font.custom("LuckiestGuy-Regular", size: 32))
                         .bold()
                         .foregroundColor(.white)
                     
                     ScrollView {
                         Text(generateCardDescription(for: getCurrentCard()))
-                            .font(.body)
+                            .font(Font.custom("LuckiestGuy-Regular", size: 20))
                             .foregroundColor(.white)
                             .multilineTextAlignment(.center)
                             .padding()
                            
+                        
                     }
                 }
                 .padding()
                 .cornerRadius(15)
                 .shadow(radius: 5)
                 
-                Spacer()
+               Spacer()
             }
         }
         .overlay(TableEdge())

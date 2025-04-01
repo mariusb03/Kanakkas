@@ -12,6 +12,7 @@ struct DamenesAftenGameView: View {
     @State private var usedCards: [DamenesAftenCard] = [] // Cards shown so far
     @State private var currentIndex = -1 // Index in usedCards
     let players: [String] // List of player names
+    @State private var showInfo = false
 
     // Special "Game Finished" card
     private let finishedCard = DamenesAftenCard(
@@ -49,7 +50,7 @@ struct DamenesAftenGameView: View {
                     Spacer()
                     DamenesAftenTitleCard()
                     Spacer()
-                    QACInfoButton { print("Info opened") }
+                    QACInfoButton { showInfo = true }
                 }
                 .padding(.top, 20)
 
@@ -58,12 +59,11 @@ struct DamenesAftenGameView: View {
                 // ✅ Show current challenge card
                 VStack {
                     Text(getCurrentCard()?.title ?? "Gjør dere klare!")
-                        .font(.title)
-                        .bold()
+                        .font(Font.custom("LuckiestGuy-Regular", size: 32))
                         .foregroundColor(.white)
 
                     Text(generateCardDescription(for: getCurrentCard()))
-                        .font(.body)
+                        .font(Font.custom("LuckiestGuy-Regular", size: 20))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
                         .padding()
@@ -74,6 +74,12 @@ struct DamenesAftenGameView: View {
 
                 Spacer()
             }
+            if showInfo {
+                DamenesAftenInfoView {
+                    showInfo = false // Dismiss overlay
+                }
+                .transition(.opacity) // Smooth fade-in effect
+            }
         }
         .overlay(TableEdge())
         .navigationBarBackButtonHidden(true)
@@ -81,7 +87,7 @@ struct DamenesAftenGameView: View {
 
     // ✅ Generate challenge text, replacing {player} with a random name
     private func generateCardDescription(for card: DamenesAftenCard?) -> String {
-        guard let card = card else { return "Gjør dere klare for utfordringer!" }
+        guard let card = card else { return "Vinkvelden skal kjøres opp og jentene skal snakke gutter og drama!" }
         if card.needsPlayer, let randomPlayer = players.randomElement() {
             return card.description.replacingOccurrences(of: "{player}", with: randomPlayer)
         } else {

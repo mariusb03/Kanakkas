@@ -46,13 +46,13 @@ struct BetsGameView: View {
                     CustomBackButton()
                     Spacer()
                     ZStack {
-                        Text("Bets")
+                        Text("Bets!")
                             .font(Font.custom("LuckiestGuy-Regular", size: 53))
                             .foregroundColor(.red)
                             .bold()
                             .shadow(color: .red, radius: 5)
                         
-                        Text("Bets")
+                        Text("Bets!")
                             .font(Font.custom("LuckiestGuy-Regular", size: 50))
                             .foregroundColor(.white)
                             .bold()
@@ -70,34 +70,44 @@ struct BetsGameView: View {
                         Text(player1)
                             .font(Font.custom("LuckiestGuy-Regular", size: 30))
                             .foregroundColor(.white)
-                            .shadow(color: .black, radius: 2)
+                            .shadow(color: .red, radius: 5)
+                            .shadow(color: .red, radius: 5)
 
                         if gameState == .placingBets {
-                            Stepper("Bet: \(player1Bet) sips", value: $player1Bet, in: 1...10)
-                                .font(.title3)
+                            Stepper("Bet: \(player1Bet) slurker", value: $player1Bet, in: 1...10)
+                                .font(Font.custom("LuckiestGuy-Regular", size: 20))
+                                .foregroundColor(.white)
                                 .padding()
-                                .background(Color.white.opacity(0.2))
+                                .background(Color.red.opacity(0.8))
                                 .cornerRadius(10)
                         }
                     }
+                    
                     Spacer()
+                    
                     Text("VS")
                         .font(Font.custom("LuckiestGuy-Regular", size: 35))
                         .foregroundColor(.white)
                         .bold()
-                        .shadow(color: .black, radius: 3)
+                        .shadow(color: .red, radius: 5)
+                        .shadow(color: .red, radius: 5)
+                    
                     Spacer()
+                    
                     VStack {
                         Text(player2)
                             .font(Font.custom("LuckiestGuy-Regular", size: 30))
                             .foregroundColor(.white)
-                            .shadow(color: .black, radius: 2)
+                            .shadow(color: .red, radius: 5)
+                            .shadow(color: .red, radius: 5)
+                        
 
                         if gameState == .placingBets {
                             Stepper("Bet: \(player2Bet) sips", value: $player2Bet, in: 1...10)
-                                .font(.title3)
+                                .font(Font.custom("LuckiestGuy-Regular", size: 20))
+                                .foregroundColor(.white)
                                 .padding()
-                                .background(Color.white.opacity(0.2))
+                                .background(Color.red.opacity(0.8))
                                 .cornerRadius(10)
                         }
                     }
@@ -124,6 +134,7 @@ struct BetsGameView: View {
                             gameState = .cardsFaceDown
                         }
                         .buttonStyle(BoldButtonStyle())
+                        .multilineTextAlignment(.center)
                         .padding()
                     }
 

@@ -22,7 +22,7 @@ struct HomeScreenView: View {
                     HStack {
                         Spacer()
                         CustomSettingsButton {
-                            showSettings.toggle()
+                            showSettings = true
                         }
                     }
                     
@@ -36,18 +36,21 @@ struct HomeScreenView: View {
                             SinglePhoneButton()
                         }
                         
-                        NavigationLink(destination: MultiplayerSelectionView()) {
-                            MultiplayerButton()
-                        }
+                        
                     }
+                }
+                if showSettings {
+                    SettingsView {
+                        showSettings = false
+                    }
+                    .transition(.opacity)
+                    
                 }
             }
             .overlay(
                 TableEdge()
             )
-            .sheet(isPresented: $showSettings) {
-                        SettingsView() // Open settings menu
-                    }
+            
         }
         .navigationBarBackButtonHidden(true)
     }

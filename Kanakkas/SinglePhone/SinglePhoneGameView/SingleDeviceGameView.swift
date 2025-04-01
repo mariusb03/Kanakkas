@@ -43,13 +43,16 @@ struct SingleDeviceGameView: View {
                     }
                     .padding(.top, 20)
                     
+                    Spacer()
                     // 📜 Game Mode Selection
                     VStack {
                         HStack {
                             Spacer()
                             GameModeButton(title: "Spørsmål og Utfordringer!", color: .red, description: "Diverse utvalg pakker med spørsmål og utfordringer for alle vors vibber!", selectedMode: $selectedMode, animation: animation)
                             Spacer()
-                            GameModeButton(title: "Kanakkas      Modus!", color: .blue, description: "Gjøre deg klar for et skikkelig Rølpe-vors!", selectedMode: $selectedMode, animation: animation)
+                            GameModeButton(title: "Kanakkas      Modus!", color: .blue, description: "Gå helt kanakkakas i denne modusen! \n en god blanding av de andre spillene! \n Velg mellom 3 nivåer!", selectedMode: $selectedMode, animation: animation)
+                            Spacer()
+                            GameModeButton(title: "spin the \n wheel!", color: .red, description: "lag ditt eget hjul med spørsmål og utfordringer! \n spinn hjulet og hold høy flaskeføring1 ", selectedMode: $selectedMode, animation: animation)
                             Spacer()
                         }
                         HStack {
@@ -60,13 +63,19 @@ struct SingleDeviceGameView: View {
                             Spacer()
                         }
                     }
+                    Spacer()
                 }
+            }
+            if showSettings {
+                SettingsView {
+                    showSettings = false
+                }
+                .transition(.opacity)
+                
             }
         }
         .overlay(TableEdge()) // Keeps the table aesthetic
-        .sheet(isPresented: $showSettings) {
-            SettingsView() // Open settings menu
-        }
+        
         .navigationBarBackButtonHidden(true)
     }
 }
@@ -176,8 +185,8 @@ struct GameModeDetailView: View {
                 }
             }
             
-            if gameMode.title == "Kanakkas Modus!" {
-                NavigationLink(destination: QACPickerView(players: players)) {
+            if gameMode.title == "Kanakkas      Modus!" {
+                NavigationLink(destination: KanakkasModePickerView(players: players)) {
                     GameModeActionButton(title: "Se utvalg")
                 }
             }
@@ -194,6 +203,12 @@ struct GameModeDetailView: View {
                 }
             }
             
+            if gameMode.title == "spin the \n wheel!" {
+                NavigationLink(destination:
+                    SpinTheWheelEditorView{ _ in }) {
+                    GameModeActionButton (title: "Spill!")
+                }
+            }
             
             // 🔙 Back Button
             Button(action: onClose) {
